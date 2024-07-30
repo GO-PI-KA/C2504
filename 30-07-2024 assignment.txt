@@ -1,0 +1,240 @@
+ASSIGNMENT
+
+1.to find average of two numbers
+
+pseudo: routine 
+Function FindAvg(number1,number2)
+sum = number1 + number2
+avg=sum/2
+Return avg
+
+pseudo: routine test
+Function TestFindAvg()
+Input number1
+Input number2
+avg = FindAvg(number1,number2)
+Print avg 
+
+
+2.to find cube of number
+
+pseudo: routine 
+Function FindCube(num)
+cube = num * num * num 
+Return cube
+
+pseudo: routine test
+Function TestFindCube()
+Input num
+cube = FindCube(num)
+Print cube
+
+3.to find square of the number
+
+pseudo: routine 
+Function FindSquare(num)
+square = num * num 
+Return square
+
+pseudo: routine test
+Function TestFindSquare()
+Input num
+square = FindSquare(num)
+Print square
+
+4.swap two numbers
+
+pseudo: routine 
+Function SwapNumbers(number1,number2)
+temp=number1
+number1=number2
+number2=temp
+Print number1
+Print number2
+
+pseudo: routine test
+Function TestSwapNumbers()
+Input number1
+Input number2
+SwapNumbers(number1,number2)
+
+5.to check number is divisible by 3
+
+pseudo: routine 
+Function IsDivisibleBy3(number)
+if(number%3==0)
+return true
+else
+return false
+
+pseudo: routine test
+Function TestIsDivisibleBy3()
+Input number
+if IsDivisibleBy3(number)
+Print "divisible by 3"
+else
+Print "not divisible by 3"
+
+6.to check number is divisible by 27
+
+pseudo: routine 
+Function IsDivisibleBy27(number)
+if(number%27==0)
+return true
+else
+return false
+
+pseudo: routine test
+Function TestIsDivisibleBy27()
+Input number
+if IsDivisibleBy27(number)
+Print "divisible by 27"
+else
+Print "not divisible by 27"
+
+7.to print N natural numbers
+
+pseudo: routine 
+Function ToPrintNaturalNos(size)
+for index in 1 to size-1
+print  index
+index=index+1
+
+pseudo: routine test
+Function TestToPrintNaturalNos()
+Input size
+ToPrintNatrualNos(size)
+
+8.to check a number palindrome
+
+pseudo: routine 
+Function IsPailindorme(number)
+set reversed=0
+set orginal=number
+while(orginal!=0)
+  remainder=orginal%10
+  reversed=reversed*10+remainder
+  orginal=orginal/10
+end while
+return(number==reversed)
+ 
+
+pseudo: routine test
+Function TestToCheckPalindrome()
+Input number
+if IsPailindorme(number)
+Print "is palindrome"
+else
+Print "not palindrome"
+
+8.to check a number is armstrong
+
+pseudo: routine 
+Function ToCheckArmstrong(number)
+set temp=number
+set sum=0
+while(number>0)
+rem=number%10
+sum=sum+(rem*rem*rem)
+number=number/10
+if(temp==sum)
+return true
+else
+return false
+
+pseudo: routine test
+Function TestToCheckArmstrong()
+Input number
+if ToCheckArmstrong(number)
+Print "is armstrong"
+else
+Print "not armstrong"
+
+9.to check a number prime
+
+pseudo: routine 
+Function ToCheckPrime(number)
+set flag=1
+for index=2
+   if index<=number/2
+       if number%index==0
+           flag=0
+if(flag)
+return true
+else
+return false
+
+pseudo: routine test
+Function TestToCheckPrime()
+Input number
+if ToCheckPrime(number)
+Print "is prime number"
+else
+Print "not prime number"
+
+10.to check a number perfect number
+
+pseudo: routine 
+Function ToCheckPerfectNo(number)
+for index=1
+   if index<number
+       if number%index==0
+           sum=sum+index
+    index=index+1
+if(sum==number)
+  return true
+else
+  return false
+
+pseudo: routine test
+Function TestToCheckPerfect()
+Input number
+if ToCheckPerfectNo(number)
+Print "is perfect number"
+else
+Print "not perfect number"
+
+11. to check number is odd or even
+
+pseudo: routine 
+Function ToCheckOddOrEven(number)
+if(number%2==0)
+return true
+else
+return false
+
+pseudo: routine test
+Function TestToCheckOddOrEven()
+Input number
+if ToCheckOddOrEven(number)
+Print "is prime number"
+else
+Print "not prime number"
+
+
+12.to check a year leap
+
+pseudo: routine 
+Function ToCheckLeapYear(number)
+if(number%400==0)
+print"it is a leap year"
+else if(number!=100&& number%4==0)
+print "it is a leap year"
+else
+print "it is not leap year"
+
+pseudo: routine test
+Function TestToCheckLeapYear()
+Input number
+ToCheckLeapYear(number)
+
+
+
+
+
+
+
+
+    
+
+
