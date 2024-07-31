@@ -1,0 +1,87 @@
+1.shopping cart
+
+int totalcost=0
+int discountcost=100
+double rate=0.1
+int[]shoppingCart={item1,item2,item3,...}
+for each item in shoppingcart:
+totalcost=totalcost + item
+if(totalcost>discountcost)
+  discount=discountrate*totalcost
+  totalcost=totalcost-discount
+print totalcost
+
+2.calculator
+
+double firsNumber,secondNumber
+char operator
+if(operator=='+')
+double result= firstNumber + SecondNumber
+print result
+else if(operator=='-')
+double result= firstNumber - SecondNumber
+print result
+else if(operator=='*')
+double result= firstNumber * SecondNumber
+print result
+else if(operator=='/')
+  if(secondNumber!=0)
+     double result=firstNumber/SecondNumber
+     print result
+else
+print 'invalid result'
+
+
+3.FUZZ
+
+for(int i=1;i<=100;i++)
+ if(i%3==0)
+    print 'Fiz'
+ else if(i%5==0)
+    print 'Buzz'
+ else if(i%5==0 && i%3==0)
+    print 'FizzBuzz'
+ end if
+end for
+
+4.palindrome
+
+input string
+int low=0
+int high=str.length-1
+while(low<high)
+ if(str[low]!=str[high])
+  print 'not palindrome'
+low=low+1
+high=high-1
+print 'is palindrome'
+
+5.bank manage
+
+double amount,balance
+input task
+switch(task):
+  case 'd': // for deposit
+      if(amount>0)
+      balance=balance+amount
+      print balance
+      break
+ case 'w': //for withdrawal
+      if(amount>balance)
+      print 'amount is invalid'
+      else
+      balance=balance-amount
+      print balance
+      break
+ case 'c': //for balance
+      print balance
+      break
+default:
+      print 'invalid choice'
+
+
+
+
+
+
+
