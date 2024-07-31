@@ -88,8 +88,25 @@ if(IsMarkGreaterThan40(mark))
 else 
   print 'fail.'
 end if
+7. To check the person adult, teenager or child 
+    for given age 
+    function IsAdult(age) -> boolean 
+        isAdult = (age >= 18);
+        return isAdult; 
+    function IsTeenager(age) -> boolean 
+        isTeenager = (age >= 13);
+        return isTeenager; 
+    function TestIsAdultTeenagerOrChild(): -> None
+        Input age 
+        if(IsAdult(age)) 
+            print 'You are an adult.'
+        else if(IsTeenager(age)) 
+            print 'You are a teenager.'
+        else
+            print 'You are a child.'
+        end if
 
-7.check for car maintenance
+8.check for car maintenance
 
 function SuggestMaintenance(serviceOption->char)
         string suggestion;
