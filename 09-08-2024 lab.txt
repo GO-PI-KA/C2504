@@ -39,13 +39,16 @@
     <hr>
     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt et debitis<br> mollitia! Molestias modi nihil error itaque repellat neque cupiditate, recusandae voluptatum in vel soluta, at iste officia quidem velit!</p>
     <p>show inline code <code>Console.WriteLine()</code>to display the code</p>
+----------------------------------anchor tag---------------------------------------------------
     <a href="https://www.google.co.in/">this is a link</a>
     <a href="contact.html" target="_blank">this is contact</a>
+---------------------------------unordered list------------------------------------------------------------
     <ul>
         <li>apple</li>
         <li>orange</li>
         <li>banana</li>
     </ul>
+--------------------------------ordered list-------------------------------------------------------------------
     <ol type="a" start="25">
         <li>apple</li>
         <li>orange</li>
@@ -53,15 +56,18 @@
     </ol>
     <p>Lorem ipsum dolor <b>sit amet, consectetur adipisicing elit. Maiores,</b> eum vero? Iusto nobis eos tempore <i>quos at deleniti, laudantium</i> ratione? Fugit adipisci <u>enim libero sit nihil quae! Dolorum,</u> quibusdam accusamus?</p>
     <p>Lorem ipsum dolor <strong>sit amet, consectetur </strong>adipisicing elit. <em>Maiores,</em> eum vero? Iusto nobis eos tempore <strike>quos at deleniti, laudantium</strike> ratione? Fugit adipisci <del>enim libero sit nihil quae! Dolorum,</del> quibusdam accusamus?</p>
+------------------------------------superscript and subscript-------------------------------------------------------------
     <p>H<sub>2O</sub></p>
     <p>10<sup>th</sup></p>
     <hr>
+--------------------------------------html entities------------------------------------------------------------------------
     <p>&lt;b&gt; tag is used to make text bold</p>
     &copy;
     &reg;
     &pound;
     &trade;
     &euro;
+----------------------------------------create a school time table using table tag--------------------------------------------------
     <table border="1">
         <thead>
          <tr>
@@ -104,6 +110,7 @@
         </tbody>
         
     </table>
+----------------------------------------using iframe tag to embedd another website--------------------------------------------------------------
 <iframe src="https://www.flipkart.com/" frameborder="1" height="700" width="700"></iframe>
 </body>
 </html>
