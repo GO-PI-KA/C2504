@@ -10,7 +10,7 @@ Check maximum salary is also prime salary.
 Use coding standards and best practices to write pseudo code and c# code.
 Plan the task codes to make as reusable functions.
 
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 using System;
 
 class YahkoopV3
@@ -155,7 +155,7 @@ class YahkoopV3
         Console.ReadKey();
     }
 }
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 2."Read patients' ages (integer) from keyboard till we read less than zero 
     by using array / collection."
 Find average age (integer), 
@@ -167,13 +167,17 @@ odd ages sum (example: 51), and
 Check minimum age is also prime age.
 Use coding standards and best practices to write pseudo code and c# code.
 Plan the task codes to make as reusable functions.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+using System;
 
 class Minnu
 {
     static void ReadPatientAgeTillBelowZero()
-    {   
-       int[] ages = new int[100]; // Predefined size array, assuming a max of 100 ages
+    {
+
+
+        int[] ages = new int[100]; // Predefined size array, assuming a max of 100 ages
         int age;
         int index = 0;
 
@@ -182,11 +186,11 @@ class Minnu
         {
             age = int.Parse(Console.ReadLine());
 
-            if(age == -1) // stop input condition
+            if (age == -1) // stop input condition
             {
                 break;
             }
-            if(age< 0) // validation for non-negative ages
+            if (age < 0) // validation for non-negative ages
             {
                 Console.WriteLine("Invalid age. Please enter a non-negative number.");
                 continue;
@@ -206,69 +210,67 @@ class Minnu
         bool isMinPrime = false;
         int maxAdult = int.MinValue, secondMaxAdult = int.MinValue;
 
-        //
-        int age = 0;
-         for (int i = 0; i < index; i++)
-        {
-            var age = ages[i];
-            count++;
 
-                    if (IsOdd(age)) // check for odd number ages
+        for (int i = 0; i < index; i++)
+        {
+            var age1 = ages[i];
+            count++;
+            if (IsOdd(age1)) // check for odd number ages
             {
                 countOdd++;
-                oddSum += age;
+                oddSum += age1;
             }
-            if (IsAdult(age)) // check for adult age
+            if (IsAdult(age1)) // check for adult age
             {
-                if (age > maxAdult)// check for max adult age
+                if (age1 > maxAdult)// check for max adult age
                 {
                     if (maxAdult != int.MaxValue)
                     {
                         secondMaxAdult = maxAdult;
                     }
-                    maxAdult = age;
+                    maxAdult = age1;
                 }
-                else if (age > secondMaxAdult && age != maxAdult)
+                else if (age1 > secondMaxAdult && age1 != maxAdult)
                 {
-                    secondMaxAdult = age;
+                    secondMaxAdult = age1;
                 }
             }
-            sum = sum + age;
-            if(IsPrime(age)) // check for prime ages
+            sum = sum + age1;
+            if (IsPrime(age1)) // check for prime ages
             {
-                primeSum += age;
+                primeSum += age1;
             }
 
-            if(IsTeenager(age)) // check for teenager
+            if (IsTeenager(age1)) // check for teenager
             {
-                teenagerSum += age;
+                teenagerSum += age1;
             }
 
-            if (age < min)// check for min age
-            { 
-                min = age;
+            if (age1 < min)// check for min age
+            {
+                min = age1;
             }
         }
 
 
         isMinPrime = IsPrime(min);
-        
+
 
         avg = sum / count; // to find average
         Console.WriteLine($"Average Age: {avg}");
         Console.WriteLine($"Prime Ages sum: {primeSum}"); //Anjana NK
-        Console.WriteLine($"Teenagers' Age Sum: {teenagerSum}"); 
+        Console.WriteLine($"Teenagers' Age Sum: {teenagerSum}");
         Console.WriteLine($"Min Age#: {min}");
         Console.WriteLine($"Odd Age Sum#: {oddSum}");
-        if(secondMaxAdult == int.MaxValue)
-        { 
+        if (secondMaxAdult == int.MaxValue)
+        {
             Console.WriteLine("Second Max Adult Age does not exist");
         }
         else
         {
             Console.WriteLine($"Second Max Adult Age#: {secondMaxAdult}");
         }
-            
+
         if (isMinPrime) // check if Minimum age is prime
         {
             Console.WriteLine("Minimum age is also prime");
@@ -299,7 +301,7 @@ class Minnu
     }
     static bool IsAdult(int age)
     {
-        return  (age > 19);
+        return (age > 19);
     }
 
     static bool IsOdd(int age)
@@ -313,7 +315,7 @@ class Minnu
         ReadPatientAgeTillBelowZero();
     }
 
-    static void Main(string[] args) 
+    static void Main(string[] args)
     {
         Console.WriteLine("-----TestReadPatientAgeTillBelowZero-----");
         TestReadPatientAgeTillBelowZero();
@@ -322,8 +324,10 @@ class Minnu
         Console.ReadKey();
     }
 
-    
+
 }
+      
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 3."Read patients' temperatures (integer) from keyboard till we read 0
@@ -337,34 +341,36 @@ odd temperatures sum (example: 31), and
 Check minimum temperature is also prime temperature.
 Use coding standards and best practices to write pseudo code and c# code.
 Plan the task codes to make as reusable functions.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+using System;
 
 class Anurag
 {
     static void ReadPatientTemperatureTillZero()
     {
 
-        int[] temps = new int[100]; // Predefined size array, assuming a max of 100 tempretures
-        int temp;
+        int[] tempretures = new int[100]; // Predefined size array, assuming a max of 100 tempretures
+        int tempreture;
         int index = 0;
 
         // Collect tempretures from keyboard
         do
         {
-            temp = int.Parse(Console.ReadLine());
+            tempreture = int.Parse(Console.ReadLine());
 
-            if(temp == -1) // stop input condition
+            if (tempreture == -1) // stop input condition
             {
                 break;
             }
-            if(temp< 0) // validation for non-negative temp
+            if (tempreture < 0) // validation for non-negative tempretures
             {
-                Console.WriteLine("Invalid temp. Please enter a non-negative number.");
+                Console.WriteLine("Invalid tempreture. Please enter a non-negative number.");
                 continue;
             }
 
-            temps[index++] = temp;
+            tempretures[index++] = tempreture;
 
-        } while (temp != -1 && index < temps.Length);
+        } while (tempreture != -1 && index < tempretures.Length);
 
         int count = 0;
         int countOdd = 0;
@@ -376,68 +382,65 @@ class Anurag
         int oddSum = 0;
         bool isMinPrime = false;
         int maxOdd = int.MinValue, secondMaxOdd = int.MinValue;
-
-        
-        //
-        int temperature = 0;
-           for (int i = 0; i < index; i++)
+        for (int i = 0; i < index; i++)
         {
-            var age = ages[i];
+            var temp = tempretures[i];
             count++;
-            if (IsOdd(temperature)) // check for odd number temperatures
+
+            if (IsOdd(temp)) // check for odd number temperatures
             {
                 countOdd++;
-                oddSum += temperature;
-            
-                if (temperature > maxOdd)// check for max odd temperature
+                oddSum += temp;
+
+                if (temp > maxOdd)// check for max odd temperature
                 {
                     if (maxOdd != int.MaxValue)
                     {
                         secondMaxOdd = maxOdd;
                     }
-                    maxOdd = temperature;
+                    maxOdd = temp;
                 }
-                else if (temperature > secondMaxOdd && temperature != maxOdd)
+                else if (temp > secondMaxOdd && temp != maxOdd)
                 {
-                    secondMaxOdd = temperature;
+                    secondMaxOdd = temp;
                 }
             }
-            sum = sum + temperature;
-            if(IsPrime(temperature)) // check for prime temperatures
+            sum = sum + temp;
+            if (IsPrime(temp)) // check for prime temperatures
             {
-                primeSum += temperature;
+                primeSum += temp;
             }
 
-            if(IsMinThreeDigits(temperature)) // check for teentemperaturer
+            if (IsMinThreeDigits(temp)) // check for teentemperaturer
             {
-                min3DigitsTemperaturerSum += temperature;
+                min3DigitsTemperaturerSum += temp;
             }
 
-            if (temperature < min)// check for min temperature
-            { 
-                min = temperature;
+            if (temp < min)// check for min temperature
+            {
+                min = temp;
             }
         } 
 
 
         isMinPrime = IsPrime(min);
-        
+
 
         avg = sum / count; // to find avertemperature
         Console.WriteLine($"Average Temperature: {avg}");
         Console.WriteLine($"Prime Temperatures sum: {primeSum}"); //Anjana NK
-        Console.WriteLine($"min 3 digits Temperature Sum: {min3DigitsTemperaturerSum}"); 
+        Console.WriteLine($"min 3 digits Temperature Sum: {min3DigitsTemperaturerSum}");
         Console.WriteLine($"Min Temperature: {min}");
         Console.WriteLine($"Odd Temperature Sum: {oddSum}");
-        if(secondMaxOdd == int.MaxValue)
-        { 
+        if (secondMaxOdd == int.MaxValue)
+        {
             Console.WriteLine("Second Max Odd Temperature does not exist");
         }
         else
         {
             Console.WriteLine($"Second Max Odd Temperature: {secondMaxOdd}");
         }
-            
+
         if (isMinPrime) // check if Minimum temperature is prime
         {
             Console.WriteLine("Minimum temperature is also prime");
@@ -479,7 +482,7 @@ class Anurag
         ReadPatientTemperatureTillZero();
     }
 
-    static void Main(string[] args) 
+    static void Main(string[] args)
     {
         Console.WriteLine("-----TestReadPatientTemperatureTillZero-----");
         TestReadPatientTemperatureTillZero();
@@ -488,5 +491,5 @@ class Anurag
         Console.ReadKey();
     }
 
-    
+
 }
