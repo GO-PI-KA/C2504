@@ -1,45 +1,7 @@
 ASSIGNMENT
 
-1.Use of new keyword in methods
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NewKey
-{
-    public class NewKeyword
-    {
-        public string Name { get; set; } = "ammu";
-        public int Age { get; set; } = 5;
-
-         public void Display()
-        {
-            Console.WriteLine($"my name is {Name} and my age is {Age}");
-        }
-    }
-    class ChildNew : NewKeyword
-    {
-        new public void Display()
-        {
-            Console.WriteLine($"my name is {Name} and i like to play");
-        }
-    }
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            NewKeyword k1= new NewKeyword();
-            k1.Display();
-            ChildNew k2= new ChildNew();
-            k2.Display();
-        }
-    }
-}
-
-2.Method Overloading
+1.Method Overloading
 
 public class Calculator
    {
@@ -100,7 +62,7 @@ public class Calculator
        }
    }
 
-3.Usage of static class,methods,properties
+2.Usage of static class,methods,properties
 
 using System;
 using System.Collections.Generic;
@@ -153,7 +115,7 @@ class Program
     }
 }
 
-4. Usage of Partial Keyword
+3. Usage of Partial Keyword
 
 
 using System;
