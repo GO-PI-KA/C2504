@@ -1,0 +1,1785 @@
+MainForm.cs
+-------------
+namespace WinFormsApp1
+{
+    public partial class MainPageForm : Form
+    {
+        public MainPageForm()
+        {
+            InitializeComponent();
+        }
+        private SumCalcForm frmSumCalc = new SumCalcForm();
+        private SquareCalcForm frmSquareCalc = new SquareCalcForm();
+        private SalaryPage frmSalary = new SalaryPage();
+        private NewContact frmContact = new NewContact();
+        private ContactList frmContactList = new ContactList();
+
+        private void mnuSumCalc_Click(object sender, EventArgs e)
+        {
+            frmSumCalc.MdiParent = this;
+            frmSumCalc.Show();
+            frmSumCalc.Activate();
+        }
+
+        private void mnuSquareCalc_Click(object sender, EventArgs e)
+        {
+            frmSquareCalc.MdiParent = this;
+            frmSquareCalc.Show();
+            frmSquareCalc.Activate();
+
+        }
+
+        private void mnuSalary_Click(object sender, EventArgs e)
+        {
+            frmSalary.MdiParent = this;
+            frmSalary.Show();
+            frmSalary.Activate();
+        }
+
+        private void mnuNewContact_Click(object sender, EventArgs e)
+        {
+            frmContact.MdiParent = this;
+            frmContact.Show();
+            frmContact.Activate();
+        }
+
+        private void mnuContactList_Click(object sender, EventArgs e)
+        {
+            frmContactList.MdiParent = this;
+            frmContactList.Show();
+            frmContactList.Activate();
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------
+MainForm.Designer.cs
+--------------------
+namespace WinFormsApp1
+{
+    partial class MainPageForm
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            mnuBar = new MenuStrip();
+            calculatorToolStripMenuItem = new ToolStripMenuItem();
+            mnuSumCalc = new ToolStripMenuItem();
+            mnudCalc1 = new ToolStripSeparator();
+            mnuSquareCalc = new ToolStripMenuItem();
+            mnuSalary = new ToolStripMenuItem();
+            mnuContact = new ToolStripMenuItem();
+            mnuContactList = new ToolStripMenuItem();
+            mnuNewContact = new ToolStripMenuItem();
+            mnuBar.SuspendLayout();
+            SuspendLayout();
+            // 
+            // mnuBar
+            // 
+            mnuBar.ImageScalingSize = new Size(20, 20);
+            mnuBar.Items.AddRange(new ToolStripItem[] { calculatorToolStripMenuItem, mnuSalary, mnuContact });
+            mnuBar.Location = new Point(0, 0);
+            mnuBar.Name = "mnuBar";
+            mnuBar.Size = new Size(1070, 28);
+            mnuBar.TabIndex = 1;
+            // 
+            // calculatorToolStripMenuItem
+            // 
+            calculatorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { mnuSumCalc, mnudCalc1, mnuSquareCalc });
+            calculatorToolStripMenuItem.Name = "calculatorToolStripMenuItem";
+            calculatorToolStripMenuItem.Size = new Size(90, 24);
+            calculatorToolStripMenuItem.Text = "&Calculator";
+            // 
+            // mnuSumCalc
+            // 
+            mnuSumCalc.Name = "mnuSumCalc";
+            mnuSumCalc.Size = new Size(209, 26);
+            mnuSumCalc.Text = "&Sum Calculator";
+            mnuSumCalc.Click += mnuSumCalc_Click;
+            // 
+            // mnudCalc1
+            // 
+            mnudCalc1.Name = "mnudCalc1";
+            mnudCalc1.Size = new Size(206, 6);
+            // 
+            // mnuSquareCalc
+            // 
+            mnuSquareCalc.Name = "mnuSquareCalc";
+            mnuSquareCalc.Size = new Size(209, 26);
+            mnuSquareCalc.Text = "S&quare Calculator";
+            mnuSquareCalc.Click += mnuSquareCalc_Click;
+            // 
+            // mnuSalary
+            // 
+            mnuSalary.Name = "mnuSalary";
+            mnuSalary.Size = new Size(63, 24);
+            mnuSalary.Text = "&Salary";
+            mnuSalary.Click += mnuSalary_Click;
+            // 
+            // mnuContact
+            // 
+            mnuContact.DropDownItems.AddRange(new ToolStripItem[] { mnuContactList, mnuNewContact });
+            mnuContact.Name = "mnuContact";
+            mnuContact.Size = new Size(74, 24);
+            mnuContact.Text = "C&ontact";
+            // 
+            // mnuContactList
+            // 
+            mnuContactList.Name = "mnuContactList";
+            mnuContactList.Size = new Size(224, 26);
+            mnuContactList.Text = "&Contact List";
+            mnuContactList.Click += mnuContactList_Click;
+            // 
+            // mnuNewContact
+            // 
+            mnuNewContact.Name = "mnuNewContact";
+            mnuNewContact.Size = new Size(224, 26);
+            mnuNewContact.Text = "&New Contact";
+            mnuNewContact.Click += mnuNewContact_Click;
+            // 
+            // MainPageForm
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1070, 647);
+            Controls.Add(mnuBar);
+            IsMdiContainer = true;
+            MainMenuStrip = mnuBar;
+            Name = "MainPageForm";
+            Text = "Example 1 App";
+            WindowState = FormWindowState.Maximized;
+            mnuBar.ResumeLayout(false);
+            mnuBar.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private MenuStrip mnuBar;
+        private ToolStripMenuItem calculatorToolStripMenuItem;
+        private ToolStripMenuItem mnuSumCalc;
+        private ToolStripSeparator mnudCalc1;
+        private ToolStripMenuItem mnuSquareCalc;
+        private ToolStripMenuItem mnuSalary;
+        private ToolStripMenuItem mnuContact;
+        private ToolStripMenuItem mnuContactList;
+        private ToolStripMenuItem mnuNewContact;
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------
+SumCalcForm.cs
+--------------
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WinFormsApp1
+{
+    public partial class SumCalcForm : Form
+    {
+        public SumCalcForm()
+        {
+            InitializeComponent();
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTitle_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SumCalcForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();//visible,invisible-show,hide
+        }
+
+        private void btnFindSum_Click(object sender, EventArgs e)
+        {
+             bool IsNum(string numStr)
+            {
+                try
+                {
+                    int.Parse(numStr);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+            if (!IsNum(txtNumber1.Text))
+            {
+                MessageBox.Show("Number 1 is not a number");
+                txtNumber1.Focus();
+                txtNumber1.SelectAll();
+                return;
+            }
+            if (!IsNum(txtNumber2.Text))
+            {
+                MessageBox.Show("Number 2 is not a number");
+                txtNumber2.Focus();
+                txtNumber2.SelectAll();
+                return;
+            }
+
+            int number1 = int.Parse(txtNumber1.Text);
+            int number2 = int.Parse(txtNumber2.Text);
+            int sum = number1 + number2;
+            txtSum.Text = sum.ToString();
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+SumCalcForm.Designer.cs
+-------------------------
+namespace WinFormsApp1
+{
+    partial class SumCalcForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            lblTitle = new Label();
+            lblNumber1 = new Label();
+            txtNumber1 = new TextBox();
+            txtNumber2 = new TextBox();
+            lblNumber2 = new Label();
+            txtSum = new TextBox();
+            lblSum = new Label();
+            btnFindSum = new Button();
+            SuspendLayout();
+            // 
+            // lblTitle
+            // 
+            lblTitle.BackColor = SystemColors.Control;
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Verdana", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.Location = new Point(0, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(1140, 67);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Sum Calc";
+            lblTitle.TextAlign = ContentAlignment.TopCenter;
+            lblTitle.Click += lblTitle_Click;
+            // 
+            // lblNumber1
+            // 
+            lblNumber1.AutoSize = true;
+            lblNumber1.Location = new Point(54, 162);
+            lblNumber1.Name = "lblNumber1";
+            lblNumber1.Size = new Size(112, 25);
+            lblNumber1.TabIndex = 1;
+            lblNumber1.Text = "Number 1";
+            // 
+            // txtNumber1
+            // 
+            txtNumber1.Location = new Point(195, 158);
+            txtNumber1.Name = "txtNumber1";
+            txtNumber1.Size = new Size(398, 32);
+            txtNumber1.TabIndex = 2;
+            // 
+            // txtNumber2
+            // 
+            txtNumber2.Location = new Point(195, 264);
+            txtNumber2.Name = "txtNumber2";
+            txtNumber2.Size = new Size(398, 32);
+            txtNumber2.TabIndex = 4;
+            // 
+            // lblNumber2
+            // 
+            lblNumber2.AutoSize = true;
+            lblNumber2.Location = new Point(54, 268);
+            lblNumber2.Name = "lblNumber2";
+            lblNumber2.Size = new Size(112, 25);
+            lblNumber2.TabIndex = 3;
+            lblNumber2.Text = "Number 2";
+            // 
+            // txtSum
+            // 
+            txtSum.Location = new Point(195, 370);
+            txtSum.Name = "txtSum";
+            txtSum.ReadOnly = true;
+            txtSum.Size = new Size(398, 32);
+            txtSum.TabIndex = 6;
+            // 
+            // lblSum
+            // 
+            lblSum.AutoSize = true;
+            lblSum.Location = new Point(54, 377);
+            lblSum.Name = "lblSum";
+            lblSum.Size = new Size(58, 25);
+            lblSum.TabIndex = 5;
+            lblSum.Text = "Sum";
+            // 
+            // btnFindSum
+            // 
+            btnFindSum.Location = new Point(195, 476);
+            btnFindSum.Name = "btnFindSum";
+            btnFindSum.Size = new Size(398, 48);
+            btnFindSum.TabIndex = 7;
+            btnFindSum.Text = "Find Sum";
+            btnFindSum.UseVisualStyleBackColor = true;
+            btnFindSum.Click += btnFindSum_Click;
+            // 
+            // SumCalcForm
+            // 
+            AutoScaleDimensions = new SizeF(13F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1140, 738);
+            Controls.Add(btnFindSum);
+            Controls.Add(txtSum);
+            Controls.Add(lblSum);
+            Controls.Add(txtNumber2);
+            Controls.Add(lblNumber2);
+            Controls.Add(txtNumber1);
+            Controls.Add(lblNumber1);
+            Controls.Add(lblTitle);
+            Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Margin = new Padding(5, 4, 5, 4);
+            Name = "SumCalcForm";
+            Text = "Sum Calc";
+            WindowState = FormWindowState.Maximized;
+            FormClosing += SumCalcForm_FormClosing;
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label lblTitle;
+        private Label lblNumber1;
+        private TextBox txtNumber1;
+        private TextBox txtNumber2;
+        private Label lblNumber2;
+        private TextBox txtSum;
+        private Label lblSum;
+        private Button btnFindSum;
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+SquareCalcForm.cs
+-----------------
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WinFormsApp1
+{
+    public partial class SquareCalcForm : Form
+    {
+        public SquareCalcForm()
+        {
+            InitializeComponent();
+        }
+
+        private void lblTitle_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSquare_Click(object sender, EventArgs e)
+        {
+             bool IsNum(string numStr)
+            {
+                try
+                {
+                    int.Parse(numStr);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+            if (!IsNum(txtNumber.Text))
+            {
+                MessageBox.Show("Please enter number only.");
+                txtNumber.Focus();
+                txtNumber.SelectAll();
+                return;
+            }
+            int number = int.Parse(txtNumber.Text);
+            int square = (int)Math.Pow(number, 2);
+            txtSquare.Text = square.ToString();
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+SquareCalcForm.Designer.cs
+--------------------------
+namespace WinFormsApp1
+{
+    partial class SquareCalcForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            lblTitle = new Label();
+            lblNumber = new Label();
+            txtNumber = new TextBox();
+            txtSquare = new TextBox();
+            lblSquare = new Label();
+            btnSquare = new Button();
+            SuspendLayout();
+            // 
+            // lblTitle
+            // 
+            lblTitle.BackColor = SystemColors.Control;
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Verdana", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.Location = new Point(0, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(800, 67);
+            lblTitle.TabIndex = 1;
+            lblTitle.Text = "Square Calc";
+            lblTitle.TextAlign = ContentAlignment.TopCenter;
+            lblTitle.Click += lblTitle_Click;
+            // 
+            // lblNumber
+            // 
+            lblNumber.AutoSize = true;
+            lblNumber.Location = new Point(116, 145);
+            lblNumber.Name = "lblNumber";
+            lblNumber.Size = new Size(63, 20);
+            lblNumber.TabIndex = 2;
+            lblNumber.Text = "Number";
+            // 
+            // txtNumber
+            // 
+            txtNumber.Location = new Point(229, 145);
+            txtNumber.Name = "txtNumber";
+            txtNumber.Size = new Size(144, 27);
+            txtNumber.TabIndex = 3;
+            // 
+            // txtSquare
+            // 
+            txtSquare.Location = new Point(229, 200);
+            txtSquare.Name = "txtSquare";
+            txtSquare.ReadOnly = true;
+            txtSquare.Size = new Size(144, 27);
+            txtSquare.TabIndex = 5;
+            // 
+            // lblSquare
+            // 
+            lblSquare.AutoSize = true;
+            lblSquare.Location = new Point(116, 200);
+            lblSquare.Name = "lblSquare";
+            lblSquare.Size = new Size(55, 20);
+            lblSquare.TabIndex = 4;
+            lblSquare.Text = "Square";
+            // 
+            // btnSquare
+            // 
+            btnSquare.Location = new Point(229, 265);
+            btnSquare.Name = "btnSquare";
+            btnSquare.Size = new Size(144, 29);
+            btnSquare.TabIndex = 6;
+            btnSquare.Text = "Find Square";
+            btnSquare.UseVisualStyleBackColor = true;
+            btnSquare.Click += btnSquare_Click;
+            // 
+            // SquareCalcForm
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(btnSquare);
+            Controls.Add(txtSquare);
+            Controls.Add(lblSquare);
+            Controls.Add(txtNumber);
+            Controls.Add(lblNumber);
+            Controls.Add(lblTitle);
+            Name = "SquareCalcForm";
+            Text = "SquareCalcForm";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label lblTitle;
+        private Label lblNumber;
+        private TextBox txtNumber;
+        private TextBox txtSquare;
+        private Label lblSquare;
+        private Button btnSquare;
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+SalaryPageForm.cs
+-----------------
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WinFormsApp1
+{
+    public partial class SalaryPage : Form
+    {
+        public SalaryPage()
+        {
+            InitializeComponent();
+        }
+
+        private List<JobTitle> jobs = new List<JobTitle> {
+            new JobTitle { Title = "a", Salary = 1.0 },
+            new JobTitle { Title = "b", Salary = 2.0 },
+            new JobTitle { Title = "c", Salary = 3.0 }
+        };
+        private JobTitle newJob = new JobTitle { Title = "", Salary = 0.0 };
+        private JobTitle editJob = null;
+
+        private void RefreshPage()
+        {
+            grdSalaries.DataSource = null;
+            grdSalaries.DataSource = jobs;//setting job salaries to grid,datasource and databinding wrk together 
+
+            cmbSalaries.DataSource = null;
+            cmbSalaries.DisplayMember = "Display";
+            cmbSalaries.ValueMember = "Title";
+            cmbSalaries.DataSource = jobs;
+
+            lstSalaries.DataSource = null;
+            lstSalaries.DisplayMember = "Display";
+            lstSalaries.ValueMember = "Title";
+            lstSalaries.DataSource = jobs;
+        }
+        private void SalaryPage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            RefreshPage();
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            newJob = new JobTitle { Title = "", Salary = 0.0 };
+            txtJobTitle.Text = newJob.Title;
+            txtSalary.Text = newJob.Salary.ToString();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            newJob.Title = txtJobTitle.Text;
+            newJob.Salary = double.Parse(txtSalary.Text);
+            jobs.Add(newJob);
+            //
+            RefreshPage();
+            btnClear_Click(null, null);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            editJob.Title = txtEditJobTitle.Text;
+            editJob.Salary = double.Parse(txtEditSalary.Text);
+
+            RefreshPage();
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (grdSalaries.SelectionMode != DataGridViewSelectionMode.FullRowSelect)
+            {
+                MessageBox.Show("Design Grid well.");
+                return;
+            }
+            if (grdSalaries.SelectedRows.Count <= 0)
+            {
+                MessageBox.Show("Please Select Salary");
+                return;
+            }
+
+            this.editJob = (JobTitle)grdSalaries.SelectedRows[0].DataBoundItem;
+            txtEditJobTitle.Text = editJob.Title;
+            txtEditSalary.Text = editJob.Salary.ToString();
+
+            btnSave.Enabled = true;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (grdSalaries.SelectionMode != DataGridViewSelectionMode.FullRowSelect)
+            {
+                MessageBox.Show("Design Grid well.");
+                return;
+            }
+            if (grdSalaries.SelectedRows.Count <= 0)
+            {
+                MessageBox.Show("Please Select Salary");
+                return;
+            }
+            this.editJob = (JobTitle)grdSalaries.SelectedRows[0].DataBoundItem;
+            this.jobs.Remove(this.editJob);
+            btnSave.Enabled = false;
+            this.editJob = null;
+
+            RefreshPage();
+
+        }
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+SalaryPageForm.Designer.cs
+---------------------------
+namespace WinFormsApp1
+{
+    partial class SalaryPage
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            lblTitle = new Label();
+            btnLoad = new Button();
+            lblTitleNewSalary = new Label();
+            lblTitleEditSalary = new Label();
+            lblJobTitle = new Label();
+            lblSalary = new Label();
+            txtJobTitle = new TextBox();
+            txtSalary = new TextBox();
+            btnClear = new Button();
+            btnAdd = new Button();
+            btnSave = new Button();
+            txtEditSalary = new TextBox();
+            txtEditJobTitle = new TextBox();
+            lblEditSalary = new Label();
+            lblEditJobTitle = new Label();
+            grdSalaries = new DataGridView();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            btnEdit = new Button();
+            btnDelete = new Button();
+            cmbSalaries = new ComboBox();
+            lstSalaries = new ListBox();
+            ((System.ComponentModel.ISupportInitialize)grdSalaries).BeginInit();
+            SuspendLayout();
+            // 
+            // lblTitle
+            // 
+            lblTitle.BackColor = SystemColors.Control;
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Verdana", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.Location = new Point(0, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(1285, 67);
+            lblTitle.TabIndex = 1;
+            lblTitle.Text = "Salary";
+            lblTitle.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // btnLoad
+            // 
+            btnLoad.Location = new Point(24, 96);
+            btnLoad.Name = "btnLoad";
+            btnLoad.Size = new Size(94, 29);
+            btnLoad.TabIndex = 2;
+            btnLoad.Text = "Load";
+            btnLoad.UseVisualStyleBackColor = true;
+            btnLoad.Click += btnLoad_Click;
+            // 
+            // lblTitleNewSalary
+            // 
+            lblTitleNewSalary.BackColor = SystemColors.ButtonShadow;
+            lblTitleNewSalary.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitleNewSalary.Location = new Point(24, 151);
+            lblTitleNewSalary.Name = "lblTitleNewSalary";
+            lblTitleNewSalary.Size = new Size(392, 25);
+            lblTitleNewSalary.TabIndex = 3;
+            lblTitleNewSalary.Text = "New Salary";
+            lblTitleNewSalary.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // lblTitleEditSalary
+            // 
+            lblTitleEditSalary.BackColor = SystemColors.ButtonShadow;
+            lblTitleEditSalary.Font = new Font("Verdana", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitleEditSalary.Location = new Point(456, 151);
+            lblTitleEditSalary.Name = "lblTitleEditSalary";
+            lblTitleEditSalary.Size = new Size(392, 25);
+            lblTitleEditSalary.TabIndex = 4;
+            lblTitleEditSalary.Text = "Edit Salary";
+            lblTitleEditSalary.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // lblJobTitle
+            // 
+            lblJobTitle.AutoSize = true;
+            lblJobTitle.Location = new Point(24, 253);
+            lblJobTitle.Name = "lblJobTitle";
+            lblJobTitle.Size = new Size(96, 25);
+            lblJobTitle.TabIndex = 5;
+            lblJobTitle.Text = "Job Title";
+            // 
+            // lblSalary
+            // 
+            lblSalary.AutoSize = true;
+            lblSalary.Location = new Point(24, 302);
+            lblSalary.Name = "lblSalary";
+            lblSalary.Size = new Size(77, 25);
+            lblSalary.TabIndex = 6;
+            lblSalary.Text = "Salary";
+            // 
+            // txtJobTitle
+            // 
+            txtJobTitle.Location = new Point(154, 253);
+            txtJobTitle.Name = "txtJobTitle";
+            txtJobTitle.Size = new Size(125, 32);
+            txtJobTitle.TabIndex = 7;
+            // 
+            // txtSalary
+            // 
+            txtSalary.Location = new Point(154, 302);
+            txtSalary.Name = "txtSalary";
+            txtSalary.Size = new Size(125, 32);
+            txtSalary.TabIndex = 8;
+            // 
+            // btnClear
+            // 
+            btnClear.Location = new Point(154, 197);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(94, 29);
+            btnClear.TabIndex = 9;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
+            // 
+            // btnAdd
+            // 
+            btnAdd.Location = new Point(26, 356);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(94, 41);
+            btnAdd.TabIndex = 10;
+            btnAdd.Text = "+";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // btnSave
+            // 
+            btnSave.Location = new Point(499, 356);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(94, 41);
+            btnSave.TabIndex = 15;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
+            // 
+            // txtEditSalary
+            // 
+            txtEditSalary.Location = new Point(627, 302);
+            txtEditSalary.Name = "txtEditSalary";
+            txtEditSalary.Size = new Size(125, 32);
+            txtEditSalary.TabIndex = 14;
+            // 
+            // txtEditJobTitle
+            // 
+            txtEditJobTitle.Location = new Point(627, 253);
+            txtEditJobTitle.Name = "txtEditJobTitle";
+            txtEditJobTitle.Size = new Size(125, 32);
+            txtEditJobTitle.TabIndex = 13;
+            // 
+            // lblEditSalary
+            // 
+            lblEditSalary.AutoSize = true;
+            lblEditSalary.Location = new Point(497, 302);
+            lblEditSalary.Name = "lblEditSalary";
+            lblEditSalary.Size = new Size(77, 25);
+            lblEditSalary.TabIndex = 12;
+            lblEditSalary.Text = "Salary";
+            // 
+            // lblEditJobTitle
+            // 
+            lblEditJobTitle.AutoSize = true;
+            lblEditJobTitle.Location = new Point(497, 253);
+            lblEditJobTitle.Name = "lblEditJobTitle";
+            lblEditJobTitle.Size = new Size(96, 25);
+            lblEditJobTitle.TabIndex = 11;
+            lblEditJobTitle.Text = "Job Title";
+            // 
+            // grdSalaries
+            // 
+            grdSalaries.AllowUserToAddRows = false;
+            grdSalaries.AllowUserToDeleteRows = false;
+            grdSalaries.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            grdSalaries.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
+            grdSalaries.Location = new Point(26, 403);
+            grdSalaries.MultiSelect = false;
+            grdSalaries.Name = "grdSalaries";
+            grdSalaries.ReadOnly = true;
+            grdSalaries.RowHeadersWidth = 51;
+            grdSalaries.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grdSalaries.Size = new Size(439, 188);
+            grdSalaries.TabIndex = 16;
+            // 
+            // Column1
+            // 
+            Column1.DataPropertyName = "Title";
+            Column1.HeaderText = "Title";
+            Column1.MinimumWidth = 6;
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
+            Column1.Width = 125;
+            // 
+            // Column2
+            // 
+            Column2.DataPropertyName = "Salary";
+            Column2.HeaderText = "Salary";
+            Column2.MinimumWidth = 6;
+            Column2.Name = "Column2";
+            Column2.ReadOnly = true;
+            Column2.Width = 125;
+            // 
+            // Column3
+            // 
+            Column3.DataPropertyName = "Display";
+            Column3.HeaderText = "Display";
+            Column3.MinimumWidth = 6;
+            Column3.Name = "Column3";
+            Column3.ReadOnly = true;
+            Column3.Width = 125;
+            // 
+            // btnEdit
+            // 
+            btnEdit.Location = new Point(26, 609);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(94, 41);
+            btnEdit.TabIndex = 17;
+            btnEdit.Text = "Edit";
+            btnEdit.UseVisualStyleBackColor = true;
+            btnEdit.Click += btnEdit_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(154, 609);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(94, 41);
+            btnDelete.TabIndex = 18;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // cmbSalaries
+            // 
+            cmbSalaries.FormattingEnabled = true;
+            cmbSalaries.Location = new Point(903, 143);
+            cmbSalaries.Name = "cmbSalaries";
+            cmbSalaries.Size = new Size(151, 33);
+            cmbSalaries.TabIndex = 19;
+            // 
+            // lstSalaries
+            // 
+            lstSalaries.FormattingEnabled = true;
+            lstSalaries.ItemHeight = 25;
+            lstSalaries.Location = new Point(907, 237);
+            lstSalaries.Name = "lstSalaries";
+            lstSalaries.SelectionMode = SelectionMode.MultiExtended;
+            lstSalaries.Size = new Size(223, 179);
+            lstSalaries.TabIndex = 20;
+            // 
+            // SalaryPage
+            // 
+            AutoScaleDimensions = new SizeF(13F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1285, 717);
+            Controls.Add(lstSalaries);
+            Controls.Add(cmbSalaries);
+            Controls.Add(btnDelete);
+            Controls.Add(btnEdit);
+            Controls.Add(grdSalaries);
+            Controls.Add(btnSave);
+            Controls.Add(txtEditSalary);
+            Controls.Add(txtEditJobTitle);
+            Controls.Add(lblEditSalary);
+            Controls.Add(lblEditJobTitle);
+            Controls.Add(btnAdd);
+            Controls.Add(btnClear);
+            Controls.Add(txtSalary);
+            Controls.Add(txtJobTitle);
+            Controls.Add(lblSalary);
+            Controls.Add(lblJobTitle);
+            Controls.Add(lblTitleEditSalary);
+            Controls.Add(lblTitleNewSalary);
+            Controls.Add(btnLoad);
+            Controls.Add(lblTitle);
+            Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Margin = new Padding(5, 4, 5, 4);
+            Name = "SalaryPage";
+            Text = "Salary";
+            WindowState = FormWindowState.Maximized;
+            FormClosing += SalaryPage_FormClosing;
+            ((System.ComponentModel.ISupportInitialize)grdSalaries).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label lblTitle;
+        private Button btnLoad;
+        private Label lblTitleNewSalary;
+        private Label lblTitleEditSalary;
+        private Label lblJobTitle;
+        private Label lblSalary;
+        private TextBox txtJobTitle;
+        private TextBox txtSalary;
+        private Button btnClear;
+        private Button btnAdd;
+        private Button btnSave;
+        private TextBox txtEditSalary;
+        private TextBox txtEditJobTitle;
+        private Label lblEditSalary;
+        private Label lblEditJobTitle;
+        private DataGridView grdSalaries;
+        private Button btnEdit;
+        private Button btnDelete;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column3;
+        private ComboBox cmbSalaries;
+        private ListBox lstSalaries;
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+ContactList.cs
+--------------
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
+
+namespace WinFormsApp1
+{
+    public partial class ContactList : Form
+    {
+        public ContactList()
+        {
+            InitializeComponent();
+        }
+        public class Contact
+        {
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public string Phone { get; set; }
+
+            public override string ToString()
+            {
+                return $"{Name},{Email},{Phone}";
+            }
+        }
+        public interface IRepo
+        {
+            void Create(Contact contact);
+            List<Contact> ReadAll();
+            Contact ReadByEmail(string email);
+            void Update(string email, Contact contact);
+            void DeleteByEmail(string email);
+
+
+        }
+        public class ListMemoryRepo : IRepo
+        {
+            private List<Contact> contacts = new List<Contact>();
+
+            public void Create(Contact contact)
+            {
+                contacts.Add(contact);
+            }
+
+            public void DeleteByEmail(string email)
+            {
+                foreach (var contact in contacts)
+                {
+                    if (contact.Email == email)
+                    {
+                        contacts.Remove(contact);
+                        return;
+                    }
+                }
+            }
+
+            public List<Contact> ReadAll()
+            {
+                return contacts;
+            }
+
+            public Contact ReadByEmail(string email)
+            {
+                foreach (var contact in contacts)
+                {
+                    if (contact.Email == email)
+                    {
+                        return (Contact)contact;
+                    }
+                }
+                return null;
+
+
+            }
+
+            public void Update(string email, Contact contact)
+            {
+                return;
+            }
+        }
+        private Contact contact = new Contact { Email = "", Name = "", Phone = "" };
+        private bool IsNew { get; set; } = true;
+        private string SaveActionText { get => (IsNew ? "Create Contact" : "Update Contact"); }
+        private IRepo repo = new ListMemoryRepo();
+
+        private void DoNewContact()
+        {
+            //new contact object
+            contact = new Contact { Email = "", Name = "", Phone = "" };
+            //object to UIs
+            txtEmail.Text = contact.Email;
+            txtName.Text = contact.Name;
+            txtPhone.Text = contact.Phone;
+            //new mode out of edit & new modes
+            IsNew = true;
+            btnSave.Text = SaveActionText;
+            txtEmail.Enabled = IsNew;
+            //
+            txtName.Focus();
+        }
+        private void DoLoadContacts()
+        {
+            lstContacts.DataSource = null;
+            lstContacts.DataSource = repo.ReadAll();//Db ReadAll in CRUD 
+        }
+        private void DoCreate()
+        {
+            var result = MessageBox.Show(text: "Are you sure to create?",
+                                         caption: "Confirm",
+                                         buttons: MessageBoxButtons.YesNo,
+                                         icon: MessageBoxIcon.Question);
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+            //UIs to object
+            contact.Email = txtEmail.Text;
+            contact.Name = txtName.Text;
+            contact.Phone = txtPhone.Text;
+            //db create in CRUD
+            repo.Create(contact);
+            //
+            result = MessageBox.Show(text: "Created Successfully",
+                                     caption: "Alert",
+                                     buttons: MessageBoxButtons.OK,
+                                     icon: MessageBoxIcon.Information);
+            //Refresh the form 1. refresh list 2. referesh form (new contact mode)
+            DoLoadContacts();
+            DoNewContact();
+        }
+
+        private void DoUpdate()
+        {
+            var result = MessageBox.Show(text: "Are you sure to update?",
+                                         caption: "Confirm",
+                                         buttons: MessageBoxButtons.YesNo,
+                                         icon: MessageBoxIcon.Question);
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+            //UIs to object
+            contact.Name = txtName.Text;
+            contact.Phone = txtPhone.Text;
+            //db update in CRUD
+            repo.Update(contact.Email, contact);
+            //
+            result = MessageBox.Show(text: "Updated Successfully",
+                                     caption: "Alert",
+                                     buttons: MessageBoxButtons.OK,
+                                     icon: MessageBoxIcon.Information);
+            //
+            DoLoadContacts();
+        }
+        private void OnEdit()
+        {
+            //selected contact
+            Contact selectedContact = (Contact)lstContacts.SelectedItem;
+            //db read by email in CRUD
+            this.contact = repo.ReadByEmail(selectedContact.Email);
+            //object to UIs
+            txtEmail.Text = contact.Email;
+            txtName.Text = contact.Name;
+            txtPhone.Text = contact.Phone;
+
+            //edit mode out of edit & new modes
+            IsNew = false;
+            btnSave.Text = SaveActionText;
+            txtEmail.Enabled = IsNew;
+            //
+            txtName.Focus();
+        }
+        private void OnDelete()
+        {
+            if (lstContacts.SelectedIndex == -1)
+            {
+                var result_valid = MessageBox.Show(text: "Please select contact",
+                                     caption: "Alert",
+                                     buttons: MessageBoxButtons.OK,
+                                     icon: MessageBoxIcon.Information);
+                return;
+            }
+            var selectedContact = (Contact)lstContacts.SelectedItem;
+            //db Delete in CRUD
+            repo.DeleteByEmail(selectedContact.Email);
+            var result = MessageBox.Show(text: "Deleted Successfully",
+                                     caption: "Alert",
+                                     buttons: MessageBoxButtons.OK,
+                                     icon: MessageBoxIcon.Information);
+            //refresh form 
+            DoLoadContacts();
+        }
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            OnEdit();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            OnDelete();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            DoNewContact();
+            DoLoadContacts();
+        }
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+ContactList.Designer.cs
+-----------------------
+namespace WinFormsApp1
+{
+    partial class ContactList
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            lblContactList = new Label();
+            lstContacts = new ListBox();
+            btnEdit = new Button();
+            btnDelete = new Button();
+            lblName = new Label();
+            lblPhone = new Label();
+            lblEmail = new Label();
+            txtName = new TextBox();
+            txtPhone = new TextBox();
+            txtEmail = new TextBox();
+            btnSave = new Button();
+            SuspendLayout();
+            // 
+            // lblContactList
+            // 
+            lblContactList.AutoSize = true;
+            lblContactList.Font = new Font("Verdana", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblContactList.Location = new Point(394, 23);
+            lblContactList.Name = "lblContactList";
+            lblContactList.Size = new Size(306, 57);
+            lblContactList.TabIndex = 0;
+            lblContactList.Text = "Contact List";
+            // 
+            // lstContacts
+            // 
+            lstContacts.FormattingEnabled = true;
+            lstContacts.ItemHeight = 25;
+            lstContacts.Location = new Point(157, 125);
+            lstContacts.Name = "lstContacts";
+            lstContacts.Size = new Size(426, 279);
+            lstContacts.TabIndex = 1;
+            // 
+            // btnEdit
+            // 
+            btnEdit.Location = new Point(200, 436);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(94, 29);
+            btnEdit.TabIndex = 2;
+            btnEdit.Text = "Edit";
+            btnEdit.UseVisualStyleBackColor = true;
+            btnEdit.Click += btnEdit_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(332, 436);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(94, 29);
+            btnDelete.TabIndex = 3;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // lblName
+            // 
+            lblName.AutoSize = true;
+            lblName.Location = new Point(680, 136);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(70, 25);
+            lblName.TabIndex = 4;
+            lblName.Text = "Name";
+            // 
+            // lblPhone
+            // 
+            lblPhone.AutoSize = true;
+            lblPhone.Location = new Point(680, 191);
+            lblPhone.Name = "lblPhone";
+            lblPhone.Size = new Size(74, 25);
+            lblPhone.TabIndex = 5;
+            lblPhone.Text = "Phone";
+            // 
+            // lblEmail
+            // 
+            lblEmail.AutoSize = true;
+            lblEmail.Location = new Point(680, 248);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(68, 25);
+            lblEmail.TabIndex = 6;
+            lblEmail.Text = "Email";
+            // 
+            // txtName
+            // 
+            txtName.Location = new Point(810, 133);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(125, 32);
+            txtName.TabIndex = 7;
+            // 
+            // txtPhone
+            // 
+            txtPhone.Location = new Point(810, 188);
+            txtPhone.Name = "txtPhone";
+            txtPhone.Size = new Size(125, 32);
+            txtPhone.TabIndex = 8;
+            // 
+            // txtEmail
+            // 
+            txtEmail.Location = new Point(810, 248);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(125, 32);
+            txtEmail.TabIndex = 9;
+            // 
+            // btnSave
+            // 
+            btnSave.Location = new Point(470, 436);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(94, 29);
+            btnSave.TabIndex = 11;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            // 
+            // ContactList
+            // 
+            AutoScaleDimensions = new SizeF(13F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1300, 562);
+            Controls.Add(btnSave);
+            Controls.Add(txtEmail);
+            Controls.Add(txtPhone);
+            Controls.Add(txtName);
+            Controls.Add(lblEmail);
+            Controls.Add(lblPhone);
+            Controls.Add(lblName);
+            Controls.Add(btnDelete);
+            Controls.Add(btnEdit);
+            Controls.Add(lstContacts);
+            Controls.Add(lblContactList);
+            Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Margin = new Padding(5, 4, 5, 4);
+            Name = "ContactList";
+            Text = "ContactList";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label lblContactList;
+        private ListBox lstContacts;
+        private Button btnEdit;
+        private Button btnDelete;
+        private Label lblName;
+        private Label lblPhone;
+        private Label lblEmail;
+        private TextBox txtName;
+        private TextBox txtPhone;
+        private TextBox txtEmail;
+        private Button btnSave;
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+NewContact.cs
+--------------
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WinFormsApp1
+{ 
+    public partial class NewContact : Form
+    {
+        public NewContact()
+        {
+            InitializeComponent();
+        }
+        public class Contact
+        {
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public string Phone { get; set; }
+
+            public override string ToString()
+            {
+                return $"{Name},{Email},{Phone}";
+            }
+        }
+        public interface IRepo
+        {
+            void Create(Contact contact);
+            List<Contact> ReadAll();
+            Contact ReadByEmail(string email);
+            void Update(string email, Contact contact);
+            void DeleteByEmail(string email);
+
+
+        }
+        public class ListMemoryRepo : IRepo
+        {
+            private List<Contact> contacts = new List<Contact>();
+
+            public void Create(Contact contact)
+            {
+                contacts.Add(contact);
+            }
+
+            public void DeleteByEmail(string email)
+            {
+                foreach (var contact in contacts)
+                {
+                    if (contact.Email == email)
+                    {
+                        contacts.Remove(contact);
+                        return;
+                    }
+                }
+            }
+
+            public List<Contact> ReadAll()
+            {
+                return contacts;
+            }
+
+            public Contact ReadByEmail(string email)
+            {
+                foreach (var contact in contacts)
+                {
+                    if (contact.Email == email)
+                    {
+                        return (Contact)contact;
+                    }
+                }
+                return null;
+
+
+            }
+
+            public void Update(string email, Contact contact)
+            {
+                return;
+            }
+        }
+        private Contact contact = new Contact { Email = "", Name = "", Phone = "" };
+        private bool IsNew { get; set; } = true;
+        private string SaveActionText { get => (IsNew ? "Create Contact" : "Update Contact"); }
+        private IRepo repo = new ListMemoryRepo();
+
+        private void DoNewContact()
+        {
+            //new contact object
+            contact = new Contact { Email = "", Name = "", Phone = "" };
+            //object to UIs
+            txtEmail.Text = contact.Email;
+            txtName.Text = contact.Name;
+            txtPhone.Text = contact.Phone;
+            //new mode out of edit & new modes
+            IsNew = true;
+            btnSave.Text = SaveActionText;
+            txtEmail.Enabled = IsNew;
+            //
+            txtName.Focus();
+        }
+        //private void DoLoadContacts()
+        //{
+        //    lstContacts.DataSource = null;
+        //    lstContacts.DataSource = repo.ReadAll();//Db ReadAll in CRUD 
+        //}
+        private void DoCreate()
+        {
+            var result = MessageBox.Show(text: "Are you sure to create?",
+                                         caption: "Confirm",
+                                         buttons: MessageBoxButtons.YesNo,
+                                         icon: MessageBoxIcon.Question);
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+            //UIs to object
+            contact.Email = txtEmail.Text;
+            contact.Name = txtName.Text;
+            contact.Phone = txtPhone.Text;
+            //db create in CRUD
+            repo.Create(contact);
+            //
+            result = MessageBox.Show(text: "Created Successfully",
+                                     caption: "Alert",
+                                     buttons: MessageBoxButtons.OK,
+                                     icon: MessageBoxIcon.Information);
+            //Refresh the form 1. refresh list 2. referesh form (new contact mode)
+            //DoLoadContacts();
+            DoNewContact();
+        }
+
+        private void DoUpdate()
+        {
+            var result = MessageBox.Show(text: "Are you sure to update?",
+                                         caption: "Confirm",
+                                         buttons: MessageBoxButtons.YesNo,
+                                         icon: MessageBoxIcon.Question);
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+            //UIs to object
+            contact.Name = txtName.Text;
+            contact.Phone = txtPhone.Text;
+            //db update in CRUD
+            repo.Update(contact.Email, contact);
+            //
+            result = MessageBox.Show(text: "Updated Successfully",
+                                     caption: "Alert",
+                                     buttons: MessageBoxButtons.OK,
+                                     icon: MessageBoxIcon.Information);
+            //
+            //DoLoadContacts();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (IsNew)
+            {
+                DoCreate();
+            }
+            else
+            {
+                DoUpdate();
+            }
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+NewContact.Designer.cs
+------------------------
+amespace WinFormsApp1
+{
+    partial class NewContact
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            lblNewContact = new Label();
+            btnSave = new Button();
+            txtEmail = new TextBox();
+            lblEmail = new Label();
+            txtPhone = new TextBox();
+            lblPhone = new Label();
+            txtName = new TextBox();
+            lblName = new Label();
+            SuspendLayout();
+            // 
+            // lblNewContact
+            // 
+            lblNewContact.AutoSize = true;
+            lblNewContact.Font = new Font("Verdana", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblNewContact.Location = new Point(239, 9);
+            lblNewContact.Name = "lblNewContact";
+            lblNewContact.Size = new Size(325, 57);
+            lblNewContact.TabIndex = 0;
+            lblNewContact.Text = "New Contact";
+            lblNewContact.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // btnSave
+            // 
+            btnSave.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSave.Location = new Point(215, 286);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(180, 48);
+            btnSave.TabIndex = 14;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
+            // 
+            // txtEmail
+            // 
+            txtEmail.Location = new Point(215, 227);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(398, 27);
+            txtEmail.TabIndex = 13;
+            // 
+            // lblEmail
+            // 
+            lblEmail.AutoSize = true;
+            lblEmail.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblEmail.Location = new Point(76, 234);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(68, 25);
+            lblEmail.TabIndex = 12;
+            lblEmail.Text = "Email";
+            // 
+            // txtPhone
+            // 
+            txtPhone.Location = new Point(215, 169);
+            txtPhone.Name = "txtPhone";
+            txtPhone.Size = new Size(398, 27);
+            txtPhone.TabIndex = 11;
+            // 
+            // lblPhone
+            // 
+            lblPhone.AutoSize = true;
+            lblPhone.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblPhone.Location = new Point(76, 176);
+            lblPhone.Name = "lblPhone";
+            lblPhone.Size = new Size(74, 25);
+            lblPhone.TabIndex = 10;
+            lblPhone.Text = "Phone";
+            // 
+            // txtName
+            // 
+            txtName.Location = new Point(215, 121);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(398, 27);
+            txtName.TabIndex = 9;
+            // 
+            // lblName
+            // 
+            lblName.AutoSize = true;
+            lblName.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblName.Location = new Point(76, 121);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(70, 25);
+            lblName.TabIndex = 8;
+            lblName.Text = "Name";
+            // 
+            // NewContact
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(948, 499);
+            Controls.Add(btnSave);
+            Controls.Add(txtEmail);
+            Controls.Add(lblEmail);
+            Controls.Add(txtPhone);
+            Controls.Add(lblPhone);
+            Controls.Add(txtName);
+            Controls.Add(lblName);
+            Controls.Add(lblNewContact);
+            Name = "NewContact";
+            Text = "NewContact";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label lblNewContact;
+        private Button btnSave;
+        private TextBox txtEmail;
+        private Label lblEmail;
+        private TextBox txtPhone;
+        private Label lblPhone;
+        private TextBox txtName;
+        private Label lblName;
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------
