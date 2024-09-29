@@ -1,0 +1,445 @@
+MainForm.Designer.cs
+--------------------
+namespace Example12Project
+{
+    partial class MainForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.simpleCounterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extendedCounterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stsBar = new System.Windows.Forms.StatusStrip();
+            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip1.SuspendLayout();
+            this.stsBar.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.simpleCounterToolStripMenuItem,
+            this.extendedCounterToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(13, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(909, 30);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // simpleCounterToolStripMenuItem
+            // 
+            this.simpleCounterToolStripMenuItem.Name = "simpleCounterToolStripMenuItem";
+            this.simpleCounterToolStripMenuItem.Size = new System.Drawing.Size(125, 24);
+            this.simpleCounterToolStripMenuItem.Text = "&Simple Counter";
+            this.simpleCounterToolStripMenuItem.Click += new System.EventHandler(this.simpleCounterToolStripMenuItem_Click);
+            // 
+            // extendedCounterToolStripMenuItem
+            // 
+            this.extendedCounterToolStripMenuItem.Name = "extendedCounterToolStripMenuItem";
+            this.extendedCounterToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
+            this.extendedCounterToolStripMenuItem.Text = "&Extended Counter";
+            this.extendedCounterToolStripMenuItem.Click += new System.EventHandler(this.extendedCounterToolStripMenuItem_Click);
+            // 
+            // stsBar
+            // 
+            this.stsBar.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.stsBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblStatus});
+            this.stsBar.Location = new System.Drawing.Point(0, 1029);
+            this.stsBar.Name = "stsBar";
+            this.stsBar.Padding = new System.Windows.Forms.Padding(2, 0, 23, 0);
+            this.stsBar.Size = new System.Drawing.Size(909, 26);
+            this.stsBar.TabIndex = 2;
+            this.stsBar.Text = "statusStrip1";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(71, 20);
+            this.lblStatus.Text = "Welcome";
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(909, 1055);
+            this.Controls.Add(this.stsBar);
+            this.Controls.Add(this.menuStrip1);
+            this.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.IsMdiContainer = true;
+            this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(5);
+            this.Name = "MainForm";
+            this.Text = "Counter App";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.stsBar.ResumeLayout(false);
+            this.stsBar.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem simpleCounterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extendedCounterToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip stsBar;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------
+CounterForm.cs
+----------------
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Example12Project
+{
+    public partial class  Counter : Form
+    {
+        public Counter()
+        {
+            InitializeComponent();
+        }
+
+        private void btnPlus_Click(object sender, EventArgs e)
+        {
+            CounterConfig.Count++;
+            lblCounter.Text = CounterConfig.Count.ToString();
+
+        }
+
+        private void btnMinus_Click(object sender, EventArgs e)
+        {
+            CounterConfig.Count--;
+            lblCounter.Text = CounterConfig.Count.ToString();
+
+        }
+
+        private void Counter_Enter(object sender, EventArgs e)
+        {
+            lblCounter.Text = CounterConfig.Count.ToString();
+        }
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------
+ExtendedCounterForm.cs
+----------------------
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Example12Project
+{
+    public partial class ExtendedCounterForm : Form
+    {
+        public ExtendedCounterForm()
+        {
+            InitializeComponent();
+            //lblCounter.Text = CounterConfig.Count.ToString();
+        }
+
+        private void btnPlus_Click(object sender, EventArgs e)
+        {
+            CounterConfig.Count += (int)txtStep.Value;
+            lblCounter.Text = CounterConfig.Count.ToString();
+            CounterConfig.lblStatus.Text = "Plus";
+        }
+
+        private void btnMinus_Click(object sender, EventArgs e)
+        {
+            CounterConfig.Count -= (int)txtStep.Value;
+            lblCounter.Text = CounterConfig.Count.ToString();
+            CounterConfig.lblStatus.Text = "Minus";
+        }
+
+        private void ExtendedCounterForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+        private void ExtendedCounterForm_Load(object sender, EventArgs e)
+        {
+           // lblCounter.Text = CounterConfig.Count.ToString();   
+        }
+
+        private void ExtendedCounterForm_Enter(object sender, EventArgs e)
+        {
+            lblCounter.Text = CounterConfig.Count.ToString();
+        }
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------
+ExtendedCounterForm.Designer.cs
+-------------------------------
+namespace Example12Project
+{
+    partial class ExtendedCounterForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.btnMinus = new System.Windows.Forms.Button();
+            this.btnPlus = new System.Windows.Forms.Button();
+            this.lblCounter = new System.Windows.Forms.Label();
+            this.txtStep = new System.Windows.Forms.NumericUpDown();
+            this.lblStep = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStep)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // btnMinus
+            // 
+            this.btnMinus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMinus.Location = new System.Drawing.Point(657, 427);
+            this.btnMinus.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnMinus.Name = "btnMinus";
+            this.btnMinus.Size = new System.Drawing.Size(94, 80);
+            this.btnMinus.TabIndex = 5;
+            this.btnMinus.Text = "-";
+            this.btnMinus.UseVisualStyleBackColor = true;
+            this.btnMinus.Click += new System.EventHandler(this.btnMinus_Click);
+            // 
+            // btnPlus
+            // 
+            this.btnPlus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlus.Location = new System.Drawing.Point(371, 427);
+            this.btnPlus.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnPlus.Name = "btnPlus";
+            this.btnPlus.Size = new System.Drawing.Size(94, 80);
+            this.btnPlus.TabIndex = 4;
+            this.btnPlus.Text = "+";
+            this.btnPlus.UseVisualStyleBackColor = true;
+            this.btnPlus.Click += new System.EventHandler(this.btnPlus_Click);
+            // 
+            // lblCounter
+            // 
+            this.lblCounter.BackColor = System.Drawing.Color.MistyRose;
+            this.lblCounter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCounter.Location = new System.Drawing.Point(371, 282);
+            this.lblCounter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCounter.Name = "lblCounter";
+            this.lblCounter.Size = new System.Drawing.Size(380, 80);
+            this.lblCounter.TabIndex = 3;
+            this.lblCounter.Text = "0";
+            this.lblCounter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtStep
+            // 
+            this.txtStep.Location = new System.Drawing.Point(474, 451);
+            this.txtStep.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtStep.Name = "txtStep";
+            this.txtStep.Size = new System.Drawing.Size(165, 34);
+            this.txtStep.TabIndex = 5;
+            this.txtStep.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtStep.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // lblStep
+            // 
+            this.lblStep.AutoSize = true;
+            this.lblStep.Location = new System.Drawing.Point(472, 418);
+            this.lblStep.Name = "lblStep";
+            this.lblStep.Size = new System.Drawing.Size(49, 28);
+            this.lblStep.TabIndex = 6;
+            this.lblStep.Text = "step";
+            // 
+            // ExtendedCounterForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1100, 788);
+            this.Controls.Add(this.lblStep);
+            this.Controls.Add(this.txtStep);
+            this.Controls.Add(this.btnMinus);
+            this.Controls.Add(this.btnPlus);
+            this.Controls.Add(this.lblCounter);
+            this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Name = "ExtendedCounterForm";
+            this.Text = "ExtendedCounterForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExtendedCounterForm_FormClosing);
+            this.Load += new System.EventHandler(this.ExtendedCounterForm_Load);
+            this.Enter += new System.EventHandler(this.ExtendedCounterForm_Enter);
+            ((System.ComponentModel.ISupportInitialize)(this.txtStep)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button btnMinus;
+        private System.Windows.Forms.Button btnPlus;
+        private System.Windows.Forms.Label lblCounter;
+        private System.Windows.Forms.NumericUpDown txtStep;
+        private System.Windows.Forms.Label lblStep;
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------
+CounterForm.Designer.cs
+------------------------
+namespace Example12Project
+{
+    partial class Counter
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblCounter = new System.Windows.Forms.Label();
+            this.btnPlus = new System.Windows.Forms.Button();
+            this.btnMinus = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // lblCounter
+            // 
+            this.lblCounter.BackColor = System.Drawing.Color.MistyRose;
+            this.lblCounter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCounter.Location = new System.Drawing.Point(441, 204);
+            this.lblCounter.Name = "lblCounter";
+            this.lblCounter.Size = new System.Drawing.Size(129, 46);
+            this.lblCounter.TabIndex = 0;
+            this.lblCounter.Text = "0";
+            this.lblCounter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnPlus
+            // 
+            this.btnPlus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlus.Location = new System.Drawing.Point(415, 287);
+            this.btnPlus.Name = "btnPlus";
+            this.btnPlus.Size = new System.Drawing.Size(68, 46);
+            this.btnPlus.TabIndex = 1;
+            this.btnPlus.Text = "+";
+            this.btnPlus.UseVisualStyleBackColor = true;
+            this.btnPlus.Click += new System.EventHandler(this.btnPlus_Click);
+            // 
+            // btnMinus
+            // 
+            this.btnMinus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMinus.Location = new System.Drawing.Point(528, 287);
+            this.btnMinus.Name = "btnMinus";
+            this.btnMinus.Size = new System.Drawing.Size(68, 46);
+            this.btnMinus.TabIndex = 2;
+            this.btnMinus.Text = "-";
+            this.btnMinus.UseVisualStyleBackColor = true;
+            this.btnMinus.Click += new System.EventHandler(this.btnMinus_Click);
+            // 
+            // Counter
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1100, 788);
+            this.Controls.Add(this.btnMinus);
+            this.Controls.Add(this.btnPlus);
+            this.Controls.Add(this.lblCounter);
+            this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Name = "Counter";
+            this.Text = "Counter";
+            this.Enter += new System.EventHandler(this.Counter_Enter);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label lblCounter;
+        private System.Windows.Forms.Button btnPlus;
+        private System.Windows.Forms.Button btnMinus;
+    }
+}
