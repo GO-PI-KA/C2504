@@ -1,0 +1,195 @@
+XAML Code for Health Insights Page
+---------------------------------------------------
+<Window x:Class="ProjectPHT.Pages.HealthInsightsPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="Health Insights Page">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" Grid.Row="0">
+            <TextBlock Text="Start Date:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <DatePicker SelectedDate="{Binding StartDate}" Margin="0,0,20,0"/>
+
+            <TextBlock Text="End Date:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <DatePicker SelectedDate="{Binding EndDate}" Margin="0,0,20,0"/>
+
+            <Button Content="Generate Insights" 
+                    Width="150" 
+                    Command="{Binding GenerateInsightsCommand}"/>
+        </StackPanel>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="Health Insights">
+                <DataGrid Name="HealthInsightsDataGrid" 
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True" 
+                          ItemsSource="{Binding HealthInsights}" 
+                          Margin="0,0,0,10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Insight Type" Binding="{Binding InsightType}" Width="150"/>
+                        <DataGridTextColumn Header="Insight Details" Binding="{Binding InsightDetails}" Width="300"/>
+                        <DataGridTextColumn Header="Generated At" Binding="{Binding GeneratedAt}" Width="150"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Health Metrics Chart">
+                <oxy:PlotView Model="{Binding PlotModel}" Margin="0,10,0,30"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
+--------------------------------------------------------------------------------------------------------
+HealthInsight ViewModel
+------------------------------------
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using System;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
+
+namespace ProjectPHT.ViewModels
+{
+    public class HealthInsightsViewModel : ViewModelBase
+    {
+        private DateTime? _startDate;
+        private DateTime? _endDate;
+        private ObservableCollection<HealthInsight> _healthInsights;
+        private PlotModel _plotModel;
+        private IHealthInsightRepo _repo;
+
+        public DateTime? StartDate
+        {
+            get => _startDate;
+            set
+            {
+                _startDate = value;
+                OnPropertyChanged(nameof(StartDate));
+            }
+        }
+
+        public DateTime? EndDate
+        {
+            get => _endDate;
+            set
+            {
+                _endDate = value;
+                OnPropertyChanged(nameof(EndDate));
+            }
+        }
+
+        public ObservableCollection<HealthInsight> HealthInsights
+        {
+            get => _healthInsights;
+            set
+            {
+                _healthInsights = value;
+                OnPropertyChanged(nameof(HealthInsights));
+            }
+        }
+
+        public PlotModel PlotModel
+        {
+            get => _plotModel;
+            set
+            {
+                _plotModel = value;
+                OnPropertyChanged(nameof(PlotModel));
+            }
+        }
+
+        public ICommand GenerateInsightsCommand { get; }
+
+        public HealthInsightsViewModel()
+        {
+            _repo = new EFHealthInsightRepo();
+            HealthInsights = new ObservableCollection<HealthInsight>();
+            GenerateInsightsCommand = new RelayCommand(GenerateHealthInsights);
+        }
+
+        private void GenerateHealthInsights()
+        {
+            if (StartDate == null || EndDate == null)
+            {
+                MessageBox.Show("Please select both start and end dates.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Fetch health insights based on the selected date range
+            HealthInsights = _repo.GetHealthInsightsByDateRange(StartDate.Value, EndDate.Value);
+
+            // Update the chart with the selected health metrics
+            UpdatePlotModel(HealthInsights);
+        }
+
+        private void UpdatePlotModel(ObservableCollection<HealthInsight> healthInsights)
+        {
+            var plotModel = new PlotModel { Title = "Health Metrics Trends" };
+
+            var lineSeries = new LineSeries { Title = "Heart Rate", MarkerType = MarkerType.Circle };
+
+            foreach (var insight in healthInsights)
+            {
+                // Assuming HealthMetric contains a Date and Value property
+                lineSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(insight.GeneratedAt), insight.HeartRate));
+            }
+
+            plotModel.Series.Add(lineSeries);
+
+            plotModel.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Title = "Date" });
+            plotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Heart Rate" });
+
+            PlotModel = plotModel;
+        }
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+IHealthInsightRepo Interface
+-----------------------------------------
+using System;
+using System.Collections.ObjectModel;
+
+namespace ProjectPHT.ViewModels
+{
+    public interface IHealthInsightRepo
+    {
+        ObservableCollection<HealthInsight> GetHealthInsightsByDateRange(DateTime startDate, DateTime endDate);
+    }
+}
+--------------------------------------------------------------
+ EFHealthInsightRepo Implementation
+----------------------------------------------------
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+
+namespace ProjectPHT.ViewModels
+{
+    public class EFHealthInsightRepo : IHealthInsightRepo
+    {
+        public ObservableCollection<HealthInsight> GetHealthInsightsByDateRange(DateTime startDate, DateTime endDate)
+        {
+            using (var context = new PHTDbContext())
+            {
+                var insights = context.HealthInsights
+                    .Where(h => h.GeneratedAt >= startDate && h.GeneratedAt <= endDate)
+                    .ToList();
+
+                return new ObservableCollection<HealthInsight>(insights);
+            }
+        }
+    }
+}
+---------------------------------------------------------------------------------------
