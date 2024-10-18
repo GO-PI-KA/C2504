@@ -109,3 +109,149 @@ namespace ProjectPHT.EFRepo.Tests
 }
 ------------------------------------------------------------------------------------------------
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using ProjectPHT.Entities;
+using ProjectPHT.EFRepo;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
+
+namespace ProjectPHT.Tests
+{
+    [TestClass]
+    public class EFUserRepoTests
+    {
+        private Mock<PHT_DbEntities> _mockContext;
+        private Mock<DbSet<User>> _mockUserSet;
+        private EFUserRepo _userRepo;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            // Mock the DbSet<User> and the DbContext (PHT_DbEntities)
+            _mockUserSet = new Mock<DbSet<User>>();
+            _mockContext = new Mock<PHT_DbEntities>();
+
+            // Set up the Users DbSet in the mocked context
+            _mockContext.Setup(c => c.Users).Returns(_mockUserSet.Object);
+
+            // Initialize the repository with the mocked context
+            _userRepo = new EFUserRepo(_mockContext.Object);
+        }
+
+        [TestMethod]
+        public void CreateUser_Should_Add_User_To_Context()
+        {
+            // Arrange
+            var user = new User { UserID = 1, Email = "test@test.com", PasswordHash = "passwordHash" };
+
+            // Act
+            _userRepo.Create(user);
+
+            // Assert
+            _mockUserSet.Verify(m => m.Add(It.IsAny<User>()), Times.Once());
+            _mockContext.Verify(m => m.SaveChanges(), Times.Once());
+        }
+
+        [TestMethod]
+        public void UpdateUser_Should_Update_Existing_User()
+        {
+            // Arrange
+            var user = new User { UserID = 1, Email = "test@test.com", PasswordHash = "passwordHash" };
+            _mockUserSet.Setup(m => m.Find(It.IsAny<int>())).Returns(user);
+
+            var updatedUser = new User { UserID = 1, Email = "updated@test.com", PasswordHash = "newHash" };
+
+            // Act
+            _userRepo.Update(updatedUser);
+
+            // Assert
+            _mockContext.Verify(m => m.SaveChanges(), Times.Once());
+        }
+
+        [TestMethod]
+        public void DeleteUser_Should_Remove_Existing_User()
+        {
+            // Arrange
+            var user = new User { UserID = 1, Email = "test@test.com", PasswordHash = "passwordHash" };
+            _mockUserSet.Setup(m => m.Find(It.IsAny<int>())).Returns(user);
+
+            // Act
+            _userRepo.Delete(user);
+
+            // Assert
+            _mockUserSet.Verify(m => m.Remove(It.IsAny<User>()), Times.Once());
+            _mockContext.Verify(m => m.SaveChanges(), Times.Once());
+        }
+
+        [TestMethod]
+        public void ReadAll_Should_Return_All_Users()
+        {
+            // Arrange
+            var data = new List<User>
+            {
+                new User { UserID = 1, Email = "test1@test.com", PasswordHash = "hash1" },
+                new User { UserID = 2, Email = "test2@test.com", PasswordHash = "hash2" }
+            }.AsQueryable();
+
+            _mockUserSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(data.Provider);
+            _mockUserSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(data.Expression);
+            _mockUserSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            _mockUserSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            // Act
+            ObservableCollection<User> result = _userRepo.ReadAll();
+
+            // Assert
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual("test1@test.com", result[0].Email);
+            Assert.AreEqual("test2@test.com", result[1].Email);
+        }
+
+        [TestMethod]
+        public void IsValidUser_Should_Return_True_For_Valid_User()
+        {
+            // Arrange
+            var user = new User { Email = "test@test.com", PasswordHash = "passwordHash" };
+            _mockUserSet.Setup(m => m.FirstOrDefault(It.IsAny<System.Linq.Expressions.Expression<System.Func<User, bool>>>())).Returns(user);
+
+            // Act
+            bool isValid = _userRepo.IsValidUser(user);
+
+            // Assert
+            Assert.IsTrue(isValid);
+        }
+
+        [TestMethod]
+        public void IsValidUser_Should_Return_False_For_Invalid_User()
+        {
+            // Arrange
+            User user = null;
+            _mockUserSet.Setup(m => m.FirstOrDefault(It.IsAny<System.Linq.Expressions.Expression<System.Func<User, bool>>>())).Returns(user);
+
+            var invalidUser = new User { Email = "invalid@test.com", PasswordHash = "invalidHash" };
+
+            // Act
+            bool isValid = _userRepo.IsValidUser(invalidUser);
+
+            // Assert
+            Assert.IsFalse(isValid);
+        }
+
+        [TestMethod]
+        public void GetPassword_Should_Return_Hashed_String()
+        {
+            // Arrange
+            var password = "mySecretPassword";
+
+            // Act
+            var hashedPassword = _userRepo.GetPassword(password);
+
+            // Assert
+            Assert.IsNotNull(hashedPassword);
+            Assert.AreNotEqual(password, hashedPassword);
+        }
+    }
+}
