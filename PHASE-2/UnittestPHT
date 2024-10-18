@@ -1,21 +1,25 @@
 unitTest
 -------------
 EFGoalsRepo
------------------------
+--------------------------------
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using ProjectPHT.Entities;
 using ProjectPHT.EFRepo;
+using ProjectPHT.Entities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ProjectPHT.Tests
+namespace ProjectPHT.EFRepo.Tests
 {
-    [TestClass]
+    [TestClass()]
     public class EFGoalsRepoTests
     {
+
         private Mock<PHT_DbEntities> _mockContext;
         private Mock<DbSet<Goal>> _mockGoalSet;
         private EFGoalsRepo _goalRepo;
@@ -34,11 +38,12 @@ namespace ProjectPHT.Tests
             _mockContext.Setup(m => m.Goals).Returns(_mockGoalSet.Object);
         }
 
-        [TestMethod]
-        public void CreateGoal_Should_Add_Goal_To_Context()
+
+        [TestMethod()]
+        public void CreateGoalTest()
         {
             // Arrange
-            var goal = new Goal { GoalID = 1, GoalType = "Weight Loss", TargetValue = 70 };
+            var goal = new Goal { GoalID = 2015, GoalType = "Increse Steps", TargetValue = 4};
 
             // Act
             _goalRepo.CreateGoal(goal);
@@ -48,11 +53,11 @@ namespace ProjectPHT.Tests
             _mockContext.Verify(m => m.SaveChanges(), Times.Once);
         }
 
-        [TestMethod]
-        public void UpdateGoal_Should_Update_Existing_Goal()
+        [TestMethod()]
+        public void UpdateGoalTest()
         {
             // Arrange
-            var goal = new Goal { GoalID = 1, GoalType = "Weight Loss", TargetValue = 70 };
+            var goal = new Goal { GoalID = 6, GoalType = "Lower BP", TargetValue = 3 };
             _mockGoalSet.Setup(m => m.Find(It.IsAny<int>())).Returns(goal);
 
             // Act
@@ -62,11 +67,12 @@ namespace ProjectPHT.Tests
             _mockContext.Verify(m => m.SaveChanges(), Times.Once);
         }
 
-        [TestMethod]
-        public void DeleteGoal_Should_Remove_Existing_Goal()
+        [TestMethod()]
+        public void DeleteGoalTest()
         {
+
             // Arrange
-            var goal = new Goal { GoalID = 1, GoalType = "Weight Loss", TargetValue = 70 };
+            var goal = new Goal { GoalID = 13, GoalType = "Lower Calories", TargetValue = 4 };
             _mockGoalSet.Setup(m => m.Find(It.IsAny<int>())).Returns(goal);
 
             // Act
@@ -75,16 +81,17 @@ namespace ProjectPHT.Tests
             // Assert
             _mockGoalSet.Verify(m => m.Remove(It.IsAny<Goal>()), Times.Once);
             _mockContext.Verify(m => m.SaveChanges(), Times.Once);
+
         }
 
-        [TestMethod]
-        public void ReadAllGoal_Should_Return_All_Goals()
+        [TestMethod()]
+        public void ReadAllGoalTest()
         {
             // Arrange
             var data = new List<Goal>
             {
-                new Goal { GoalID = 1, GoalType = "Weight Loss", TargetValue = 70 },
-                new Goal { GoalID = 2, GoalType = "Running", TargetValue = 5 }
+                new Goal { GoalID = 6, GoalType = "Increse Steps", TargetValue = 3 },
+                new Goal { GoalID = 12, GoalType = "Increse Steps", TargetValue = 3 }
             }.AsQueryable();
 
             _mockGoalSet.As<IQueryable<Goal>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -100,3 +107,5 @@ namespace ProjectPHT.Tests
         }
     }
 }
+------------------------------------------------------------------------------------------------
+
