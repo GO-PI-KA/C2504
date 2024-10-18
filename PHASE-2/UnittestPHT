@@ -1,0 +1,101 @@
+unitTest
+-------------
+EFGoalsRepo
+-----------------------
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ProjectPHT.Entities;
+using ProjectPHT.EFRepo;
+using System.Collections.ObjectModel;
+using System.Linq;
+
+namespace ProjectPHT.Tests
+{
+    [TestClass]
+    public class EFGoalsRepoTests
+    {
+        private PHT_DbEntities _context;
+        private EFGoalsRepo _goalRepo;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            // Use an in-memory database for testing
+            var options = new DbContextOptionsBuilder<PHT_DbEntities>()
+                .UseInMemoryDatabase(databaseName: "TestGoalsDb")
+                .Options;
+
+            _context = new PHT_DbEntities(options);
+            _goalRepo = new EFGoalsRepo(_context);
+        }
+
+        [TestMethod]
+        public void CreateGoal_Should_Add_Goal_To_Context()
+        {
+            // Arrange
+            var goal = new Goal { GoalID = 1, GoalType = "Weight Loss", TargetValue = 70 };
+
+            // Act
+            _goalRepo.CreateGoal(goal);
+
+            // Assert
+            Assert.AreEqual(1, _context.Goals.Count());
+            Assert.AreEqual("Weight Loss", _context.Goals.First().GoalType);
+        }
+
+        [TestMethod]
+        public void UpdateGoal_Should_Update_Existing_Goal()
+        {
+            // Arrange
+            var goal = new Goal { GoalID = 1, GoalType = "Weight Loss", TargetValue = 70 };
+            _context.Goals.Add(goal);
+            _context.SaveChanges();
+
+            var updatedGoal = new Goal { GoalID = 1, GoalType = "Running", TargetValue = 5 };
+
+            // Act
+            _goalRepo.UpdateGoal(updatedGoal);
+
+            // Assert
+            var result = _context.Goals.First();
+            Assert.AreEqual("Running", result.GoalType);
+            Assert.AreEqual(5, result.TargetValue);
+        }
+
+        [TestMethod]
+        public void DeleteGoal_Should_Remove_Existing_Goal()
+        {
+            // Arrange
+            var goal = new Goal { GoalID = 1, GoalType = "Weight Loss", TargetValue = 70 };
+            _context.Goals.Add(goal);
+            _context.SaveChanges();
+
+            // Act
+            _goalRepo.DeleteGoal(goal);
+
+            // Assert
+            Assert.AreEqual(0, _context.Goals.Count());
+        }
+
+        [TestMethod]
+        public void ReadAllGoal_Should_Return_All_Goals()
+        {
+            // Arrange
+            var goal1 = new Goal { GoalID = 1, GoalType = "Weight Loss", TargetValue = 70 };
+            var goal2 = new Goal { GoalID = 2, GoalType = "Running", TargetValue = 5 };
+
+            _context.Goals.Add(goal1);
+            _context.Goals.Add(goal2);
+            _context.SaveChanges();
+
+            // Act
+            ObservableCollection<Goal> result = _goalRepo.ReadAllGoal();
+
+            // Assert
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual("Weight Loss", result[0].GoalType);
+            Assert.AreEqual("Running", result[1].GoalType);
+        }
+    }
+}
+--
