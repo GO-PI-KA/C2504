@@ -1,0 +1,1027 @@
+EFGoalRepo
+--------------------------
+
+using System;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
+using ProjectPHT.Entities;
+using ProjectPHT.Repo;
+
+namespace ProjectPHT.EFRepo
+{
+    public class EFGoalsRepo : IGoalsRepo
+    {
+
+        private readonly PHT_DbEntities _context;
+
+        public EFGoalsRepo()
+        {
+            _context = new PHT_DbEntities();
+        }
+
+        public void CreateGoal(Goal goalModel)
+        {
+            _context.Goals.Add(goalModel);
+            _context.SaveChanges();
+        }
+
+        public void UpdateGoal(Goal goalModel)
+        {
+            var existingGoal = _context.Goals.Find(goalModel.GoalID);
+            if (existingGoal != null)
+            {
+                _context.Entry(existingGoal).CurrentValues.SetValues(goalModel);
+                _context.SaveChanges();
+            }
+        }
+
+        public void DeleteGoal(Goal goalModel)
+        {
+            var goalToDelete = _context.Goals.Find(goalModel.GoalID);
+            if (goalToDelete != null)
+            {
+                _context.Goals.Remove(goalToDelete);
+                _context.SaveChanges();
+            }
+        }
+
+        public ObservableCollection<Goal> ReadAllGoal()
+        {
+            return new ObservableCollection<Goal>(_context.Goals.ToList());
+        }
+
+
+    }
+}
+---------------------------------
+EFHealthInsightRepo
+--------------------
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using ProjectPHT.Entities;
+
+namespace ProjectPHT.ViewModels
+{
+    public class EFHealthInsightRepo : IHealthInsightRepo
+    {
+        private readonly PHT_DbEntities _context;
+
+        public EFHealthInsightRepo(PHT_DbEntities context)
+        {
+            _context = context;
+        }
+
+        // Method to generate insights based on health metrics
+        public void GenerateInsights(List<HealthMetric> healthMetrics)
+        {
+            if (healthMetrics == null || !healthMetrics.Any())
+                throw new ArgumentNullException(nameof(healthMetrics));
+
+            foreach (var metric in healthMetrics)
+            {
+                var insight = new HealthInsight
+                {
+                    UserID = metric.UserID,
+                    InsightType = "Health Insight",
+                    InsightDetails = "Take rest",
+                    GeneratedAt = DateTime.Now
+                };
+
+                _context.HealthInsights.Add(insight);
+            }
+
+            _context.SaveChanges();
+        }
+
+        // Method to retrieve personalized suggestions
+        public List<string> GetSuggestions()
+        {
+            // Example suggestions, ideally these would be generated based on user metrics
+            return new List<string>
+            {
+                "Increase your daily water intake.",
+                "Aim for at least 30 minutes of exercise each day.",
+                "Consider a balanced diet with more fruits and vegetables."
+            };
+        }
+
+        // Method to retrieve alerts for abnormal metrics
+        public List<string> GetAlerts()
+        {
+            var alerts = new List<string>();
+            var abnormalMetrics = _context.HealthMetrics
+                .Where(m => m.BloodPressureSystolic > 140 || m.BloodPressureDiastolic > 90)
+                .ToList();
+
+            foreach (var metric in abnormalMetrics)
+            {
+                alerts.Add($"Alert: User {metric.UserID} has abnormal blood pressure readings on {metric.MetricDate}.");
+            }
+
+            return alerts;
+        }
+
+        // Method to get insights by user ID
+        public List<HealthInsight> GetInsightsByUserId(int userId)
+        {
+            return _context.HealthInsights
+                .Where(h => h.UserID == userId)
+                .ToList();
+        }
+
+
+
+    }
+}
+---------------------------------------------------------------
+
+--------------
+----------------------------------------------
+EFHEALTHMETRICS REPO
+-----------------
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ProjectPHT.Entities;
+using System.Windows;
+using ProjectPHT.Repo;
+
+namespace ProjectPHT.EFRepo
+{
+    public class EFHealthMetricsRepo : IHealthMetricsRepo
+    {
+        //string HeartRateNotification;
+        //string BpSysNotification;
+        //string BpdysNotification;
+        //string ActLevelNotification;
+
+        //int heartRateThreshold = 75;
+        //int bpSysThreshold = 23;
+        //int bpDysThresholdc = 89;
+        //int activityLevel = 45;
+
+        //public string InsightGeneration(int Heartrate,int Bpsys,int Bpdys,decimal Actlevel)
+        //{
+        //    if (HeartRateNotification == null) { }
+        //    else if
+
+        private readonly PHT_DbEntities _context;
+
+        public EFHealthMetricsRepo()
+        {
+            _context = new PHT_DbEntities();
+        }
+
+        public void CreateHealthMetrics(HealthMetric healthMetric)
+        {
+            //MessageBox.Show($"working.....");
+            try
+            {
+                _context.HealthMetrics.Add(healthMetric);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.InnerException}");
+            }
+
+
+
+        }
+
+        public void InsightGeneration(int Heartrate, int Bpsys, int Bpdys, decimal Actlevel)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public ObservableCollection<HealthMetric> ReadAllHealthMetrics()
+        {
+            return new ObservableCollection<HealthMetric>(_context.HealthMetrics.ToList());
+        }
+    }
+}
+-----------------------------------------------------------------
+GoalsViewModel.cs
+---------------
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using ProjectPHT.Commands;
+using ProjectPHT.EFRepo;
+using ProjectPHT.Entities;
+using ProjectPHT.Repo;
+
+namespace ProjectPHT.ViewModels
+{
+    public delegate void DWidnowClose();
+    public class GoalsViewModel : ViewModelBase
+    {
+
+        private ObservableCollection<Goal> _goals;
+        private Goal _newGoal;
+        public DWidnowClose NewWindowClose;
+
+
+
+        public Goal NewGoal
+        {
+            get { return _newGoal; }
+            set
+            {
+                _newGoal = value;
+                OnPropertyChanged(nameof(NewGoal));
+            }
+        }
+
+        private Goal _selectedGoal = null;
+
+        public Goal SelectedGoal
+        {
+            get => _selectedGoal;
+            set
+            {
+                _selectedGoal = value;
+                OnPropertyChanged(nameof(SelectedGoal));
+            }
+        }
+
+
+
+
+        public ObservableCollection<Goal> Goals
+        {
+            get
+            {
+
+                //  return _repo.ReadAllGoal();
+                return _goals;
+
+
+            }
+            set { _goals = value; OnPropertyChanged(nameof(Goals)); }
+        }
+
+        private IGoalsRepo _repo = new EFGoalsRepo();
+        public ICommand CreateCommand { get; }
+
+        public ICommand UpdateCommand { get; }
+
+
+        public ICommand DeleteCommand { get; }
+
+
+
+
+
+        public GoalsViewModel()
+        {
+            LoadGoals();
+            CreateCommand = new RelayCommand(CreateGoal);
+            UpdateCommand = new RelayCommand(UpdateGoal);
+            DeleteCommand = new RelayCommand(DeleteGoal);
+            this.NewGoal = new Goal
+            {
+
+                GoalID = 3,
+                UserID = 3,
+                GoalType = "lower BP",
+                TargetValue = 10,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                Status = "active",
+            };
+        }
+
+        public void LoadGoals()
+        {
+            Goals = _repo.ReadAllGoal();
+        }
+        public void CreateGoal()
+        {
+            try
+            {
+                Goal newGoal = new Goal
+                {
+                    GoalID = NewGoal.GoalID,
+                    UserID = NewGoal.UserID,
+                    GoalType = NewGoal.GoalType,
+                    TargetValue = NewGoal.TargetValue,
+                    StartDate = NewGoal.StartDate,
+                    EndDate = NewGoal.EndDate,
+                    Status = NewGoal.Status,
+                };
+
+                var result = MessageBox.Show(messageBoxText: "Are you sure to create?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+                _repo.CreateGoal(newGoal);
+                result = MessageBox.Show(messageBoxText: "Created Successfully",
+                    caption: "Alert",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Information);
+                LoadGoals();
+
+                if (NewWindowClose != null)
+                {
+                    NewWindowClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine("An error occurred: " + ex.Message);
+
+                // Show an error message to the user
+                MessageBox.Show(messageBoxText: "An error occurred: " + ex.Message,
+                    caption: "Error",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Error);
+            }
+        }
+        /// <summary>
+        /// Updates an existing account.
+        /// </summary>
+        public void UpdateGoal()
+        {
+            if (this.SelectedGoal == null)
+            {
+                return;
+            }
+
+            var res = MessageBox.Show(messageBoxText: "Are you sure to Update?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+
+            if (res != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+
+            _repo.UpdateGoal(this.SelectedGoal);
+            this.SelectedGoal = this.SelectedGoal;
+            var result = MessageBox.Show(messageBoxText: $"Goal {SelectedGoal.GoalID} is updated successfully",
+                    caption: "Alert",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Information);
+
+            LoadGoals();
+
+
+
+
+        }
+
+        /// <summary>
+        /// Deletes an existing account.
+        /// </summary>
+        public void DeleteGoal()
+        {
+            if (this.SelectedGoal == null)
+            {
+                //var result1 = MessageBox.Show(messageBoxText: "Please select a goal",
+                //    caption: "Alert",
+                //    button: MessageBoxButton.OK,
+                //    icon: MessageBoxImage.Information);
+                return;
+            }
+
+            var res = MessageBox.Show(messageBoxText: "Are you sure to Delete?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+
+            if (res != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+
+
+            _repo.DeleteGoal(this.SelectedGoal);
+            this.SelectedGoal = this.SelectedGoal;
+            var result = MessageBox.Show(messageBoxText: $"Goal {SelectedGoal.GoalID} is  deleted successfully",
+                    caption: "Alert",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Information);
+
+            LoadGoals();
+
+
+        }
+
+
+    }
+}
+---------------------------------------------------------
+HealthInsightViewModel
+------------------------
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using ProjectPHT.Commands;
+using ProjectPHT.EFRepo;
+using ProjectPHT.Entities;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
+
+namespace ProjectPHT.ViewModels
+{
+    public class HealthInsightViewModel
+    {
+        private readonly IHealthInsightRepo _healthInsightRepo;
+
+        public int UserID { get; set; }
+        public List<HealthInsight> Insights { get; set; } = new List<HealthInsight>();
+        public List<string> Suggestions { get; set; } = new List<string>();
+        public List<string> Alerts { get; set; } = new List<string>();
+
+        // Constructor
+        public HealthInsightViewModel(int userId, IHealthInsightRepo healthInsightRepo)
+        {
+            UserID = userId;
+            _healthInsightRepo = healthInsightRepo;
+            LoadData();
+        }
+        public HealthInsightViewModel() { }
+
+        // Method to load insights, suggestions, and alerts
+        private void LoadData()
+        {
+            LoadInsights();
+            LoadSuggestions();
+            LoadAlerts();
+        }
+
+        // Method to load insights from the repository
+        private void LoadInsights()
+        {
+            Insights = _healthInsightRepo.GetInsightsByUserId(UserID);
+        }
+
+        // Method to load suggestions from the repository
+        private void LoadSuggestions()
+        {
+            Suggestions = _healthInsightRepo.GetSuggestions();
+        }
+
+        // Method to load alerts from the repository
+        private void LoadAlerts()
+        {
+            Alerts = _healthInsightRepo.GetAlerts();
+        }
+    }
+}
+-------------------------------------------------------------------------
+HealthMetricsViewModel
+--------------------
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ProjectPHT.Commands;
+using ProjectPHT.EFRepo;
+using ProjectPHT.Repo;
+using System.Windows.Input;
+using System.Windows;
+using ProjectPHT.Entities;
+
+namespace ProjectPHT.ViewModels
+{
+   
+        public delegate void DWidnowClose();
+        public delegate bool DFormValid();
+
+        public class DailyHealthMetrixEntryViewModel : ViewModelBase
+        {
+
+            private HealthMetric _newHealthMetricl = null;
+
+            public DWidnowClose NewWindowClose;
+            public DWidnowClose EditWindowClose;
+            private ObservableCollection<HealthMetric> _healthMetrics;
+
+            public HealthMetric NewHealthMetric
+            {
+                get { return _newHealthMetricl; }
+                set
+                {
+                    _newHealthMetricl = value;
+                    OnPropertyChanged(nameof(NewHealthMetric));
+                }
+            }
+            //private readonly IHealthMetricsRepo _repo;
+            private IHealthMetricsRepo _repo = new EFHealthMetricsRepo();
+
+            public ObservableCollection<HealthMetric> HealthMetrics
+            {
+                get
+                { return _healthMetrics; }
+                set
+                {
+                    _healthMetrics = value; OnPropertyChanged(nameof(HealthMetrics));
+                }
+            }
+            public ICommand CreateCommand { get; }
+
+
+            public DailyHealthMetrixEntryViewModel()
+            {
+                LoadHealthMetrics();
+                CreateCommand = new RelayCommand(CreateHealthMetrics);
+                //NewHealthMetric.MetricDate = DateTime.Now;
+                this.NewHealthMetric = new HealthMetric
+                {
+                    MetricID = 101,
+                    HeartRate = 0,
+                    BloodPressureSystolic = 0,
+                    BloodPressureDiastolic = 0,
+                    ActivityLevel = 0,
+                    MetricDate = DateTime.Now,
+                    CreatedAt = DateTime.Now,
+                    UserID = 3,
+                };
+            }
+            public void LoadHealthMetrics()
+            {
+                HealthMetrics = _repo.ReadAllHealthMetrics();
+            }
+            public void CreateHealthMetrics()
+            {
+                //MessageBox.Show($"viewmodel is working..");
+                HealthMetric newDailyHealthMetrixEntryViewModel = new HealthMetric
+                {
+                    MetricID = NewHealthMetric.MetricID,
+                    HeartRate = NewHealthMetric.HeartRate,
+                    BloodPressureSystolic = NewHealthMetric.BloodPressureSystolic,
+                    BloodPressureDiastolic = NewHealthMetric.BloodPressureDiastolic,
+                    ActivityLevel = NewHealthMetric.ActivityLevel,
+                    MetricDate = NewHealthMetric.MetricDate,
+                    CreatedAt = DateTime.Now,
+                    UserID = NewHealthMetric.UserID,
+
+                };
+
+
+
+                try
+                {
+                    var result = MessageBox.Show(messageBoxText: "Are you sure to create?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+                    if (result != MessageBoxResult.Yes)
+                    {
+                        return;
+                    }
+                    _repo.CreateHealthMetrics(NewHealthMetric);
+                    result = MessageBox.Show(messageBoxText: "Inserted Data Successfully",
+                    caption: "Alert",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Information);
+                    LoadHealthMetrics();
+
+
+
+                    if (NewWindowClose != null)
+                    {
+                        NewWindowClose();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}");
+                }
+            }
+
+
+        }
+    }
+--------------------------------------------------------------
+UserViewModel
+--------------
+UserViewModel
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ProjectPHT.Commands;
+using ProjectPHT.EFRepo;
+using ProjectPHT.Repo;
+using System.Windows.Input;
+using System.Windows;
+using ProjectPHT.Entities;
+using System.Security.Cryptography;
+
+
+namespace ProjectPHT.ViewModels
+{
+    public delegate void DWindoClose();
+
+    public class UserViewModel : ViewModelBase
+    {
+        public DWindoClose WindowClose;
+        public DWindoClose EditWindowClose;
+
+        public IUserRepo _repo = EFUserRepo.Instance;
+
+        private User _newUser;
+
+
+        public User NewUser
+        {
+            get
+            {
+                return _newUser;
+            }
+            set
+            {
+                _newUser = value; OnPropertyChanged(nameof(NewUser));
+            }
+        }
+
+
+        private User _selectedUser;
+
+
+        public User SelectedUser
+        {
+            get
+            {
+                return _selectedUser;
+            }
+            set
+            {
+                _selectedUser = value; OnPropertyChanged(nameof(SelectedUser));
+            }
+        }
+
+
+
+        private User _currentUser;
+
+
+        public User CurrentUser
+        {
+            get
+            {
+                return _currentUser;
+            }
+            set
+            {
+                _currentUser = value; OnPropertyChanged(nameof(CurrentUser));
+            }
+        }
+
+        private ObservableCollection<User> _users;
+
+
+        public ObservableCollection<User> Users
+        {
+            get
+            {
+                return _users;
+            }
+            set
+            {
+                _users = value; OnPropertyChanged(nameof(Users));
+            }
+        }
+
+        public ICommand CreateCommand { get; set; }
+        //public ICommand LoginCommand { get; set; }
+
+        public ICommand UpdateCommand { get; set; }
+
+        public ICommand DeleteCommand { get; set; }
+
+        public UserViewModel()
+        {
+            NewUser = new User
+            {
+                Name = "",
+                Email = "",
+                PasswordHash = "",
+                DateOfBirth = DateTime.Now,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+
+            };
+
+            CurrentUser = new User
+            {
+                Name = "",
+                Email = "",
+                PasswordHash = ""
+            };
+
+            LoadUsers();
+            CreateCommand = new RelayCommand(Create);
+            //LoginCommand = new RelayCommand(Login);
+            UpdateCommand = new RelayCommand(Update);
+            DeleteCommand = new RelayCommand(Delete);
+        }
+
+        public void HashPassword()
+        {
+            string password = NewUser.PasswordHash;
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = md5.ComputeHash(passwordBytes);
+
+                // Convert the hash bytes to a hexadecimal string
+                string hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+
+                NewUser.PasswordHash = hashString;
+            }
+        }
+        private void Delete()
+        {
+            if (this.SelectedUser == null)
+            {
+                var result1 = MessageBox.Show(messageBoxText: "Please select the user to Delete",
+                        caption: "Alert",
+                        button: MessageBoxButton.OK,
+                        icon: MessageBoxImage.Information);
+                return;
+            }
+
+            var res = MessageBox.Show(messageBoxText: "Are you sure to Delete this User?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+
+            if (res != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            _repo.Delete(this.SelectedUser);
+            this.SelectedUser = this.SelectedUser;
+            var result = MessageBox.Show(messageBoxText: $"Alert {SelectedUser.UserID} is Deleted successfully",
+                       caption: "Alert",
+                       button: MessageBoxButton.OK,
+                       icon: MessageBoxImage.Information);
+            LoadUsers();
+        }
+
+        private void Update()
+        {
+
+            if (this.SelectedUser == null)
+            {
+                return;
+            }
+
+            var res = MessageBox.Show(messageBoxText: "Are you sure to Update this User?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+
+            if (res != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            _repo.Update(this.SelectedUser);
+            this.SelectedUser = this.SelectedUser;
+
+            var result = MessageBox.Show(messageBoxText: $"Alert {SelectedUser.UserID} is updated successfully",
+                        caption: "Alert",
+                        button: MessageBoxButton.OK,
+                        icon: MessageBoxImage.Information);
+            LoadUsers();
+
+            if (EditWindowClose != null)
+            {
+                EditWindowClose();
+            }
+        }
+
+        private void LoadUsers()
+        {
+            Users = _repo.ReadAll();
+        }
+
+        private void Create()
+        {
+            HashPassword();
+            var newUser = new User
+            {
+                Name = NewUser.Name,
+                PasswordHash = NewUser.PasswordHash,
+                Email = NewUser.Email,
+                DateOfBirth = NewUser.DateOfBirth,
+                Gender = NewUser.Gender,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+            try
+            {
+                var result = MessageBox.Show(messageBoxText: "Are you sure to Create ?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+                _repo.Create(newUser);/////
+
+                result = MessageBox.Show(messageBoxText: "Created Successfully",
+                    caption: "Alert",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Information);
+
+                LoadUsers();
+
+                if (WindowClose != null)
+                {
+                    WindowClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
+        }
+
+        /*public bool CanLogin()
+        {
+            return CurrentUser.Name.Length > 0 && CurrentUser.PasswordHash.Length > 0;
+        }
+
+        private void Login()
+        {
+            try
+            {
+                _repo.Login(CurrentUser);
+                MessageBox.Show($"Login SuccessFull");
+
+
+                if (CurrentUser.Username == "admin")
+                {
+
+                    PHTConfig.adminDashboardWindow.Show();
+                }
+                else
+                {
+                    PHTConfig.userDashboardWindow.Show();
+                }
+                if (WindowClose != null)
+                {
+                    WindowClose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
+        }*/
+
+
+
+
+    }
+}
+----------------------------------------------------------------
+EFUserRepo
+--------------------
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using ProjectPHT.Entities;
+using ProjectPHT.Repo;
+
+namespace ProjectPHT.EFRepo
+{
+    public class EFUserRepo : IUserRepo
+    {
+        private static EFUserRepo _instance;
+        public ObservableCollection<User> Users { get; set; }
+        public static EFUserRepo Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new EFUserRepo();
+                return _instance;
+            }
+
+        }
+        //public User CurrentUser { get; set; } = null;
+        private PHT_DbEntities _context;
+        public EFUserRepo()
+        {
+            _context = new PHT_DbEntities();
+        }
+        public void Create(User user)
+        {
+            //throw new NotImplementedException();
+            _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+
+        public string GetPassword(string password)
+        {
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = md5.ComputeHash(passwordBytes);
+
+                // Convert the hash bytes to a hexadecimal string
+                string inputHash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                return inputHash;
+            }
+
+
+        }
+        /*public void Login(User user)
+        {
+            var HashedPassword = GetPassword(user.PasswordHash);
+            var User = _context.Users.FirstOrDefault(u => u.Email == user.Email && u.PasswordHash == HashedPassword);
+            if (User == null)
+            {
+                throw new Exception("Invalid username or password");
+            }
+            else
+            {
+                CurrentUser = User;
+            }
+
+        }*/
+        public bool IsValidUser(User user)
+        {
+            //var HashedPassword = GetPassword(user.PasswordHash);
+            var User = _context.Users.FirstOrDefault(u => u.Email == user.Email && u.PasswordHash == user.PasswordHash);
+            if (User == null)
+            {
+                MessageBox.Show("Invalid email or password");
+                return false;
+            }
+            else
+            {
+                //CurrentUser = User;
+                return true;
+            }
+
+            //return user != null;
+        }
+        public void Delete(User userModel)
+        {
+            var userToDelete = _context.Users.Find(userModel.UserID);
+            if (userToDelete != null)
+            {
+                _context.Users.Remove(userToDelete);
+                _context.SaveChanges();
+            }
+        }
+        public void Update(User userModel)
+        {
+            var existingUser = _context.Users.Find(userModel.UserID);
+            if (existingUser != null)
+            {
+                _context.Entry(existingUser).CurrentValues.SetValues(userModel);
+                // existingUser.Username = userModel.Username;
+                _context.SaveChanges();
+            }
+        }
+        public ObservableCollection<User> ReadAll()
+        {
+            return new ObservableCollection<User>(_context.Users.ToList());
+        }
+    }
+}
