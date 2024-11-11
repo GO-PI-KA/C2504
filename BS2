@@ -364,3 +364,154 @@ App.xaml
 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ButtonVisibilityConverterTest.cs
+------------------------------------
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Task;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Globalization;
+using System.Windows;
+
+namespace Task.Tests
+{
+    [TestClass()]
+    public class ButtonVisibilityConverterTests
+    {
+        public ButtonVisibilityConverter _converter;
+        [TestInitialize]
+        public void setup()
+        {
+            _converter = new ButtonVisibilityConverter();
+        }
+        //case 1: When search text is null or empty then entire button is visible.
+        [TestMethod()]
+        public void Convert_SearchTextIsNullOrEmpty_ReturnVisible()
+        {
+            //Arrange
+            object searchText = null;
+            var buttonContent = "Button";
+            //Act
+            var result = _converter.Convert(searchText, typeof(Visibility), buttonContent, CultureInfo.InvariantCulture);
+            //Assert
+            Assert.AreEqual(Visibility.Visible, result);
+        }
+        //case 2: When search text is empty then entire button is visible.
+        [TestMethod()]
+        public void Convert_SearchTextIsEmpty_ReturnVisible()
+        {
+            //Arrange
+            object searchText = String.Empty;
+            var buttonContent = "Button";
+            //Act
+            var result = _converter.Convert(searchText, typeof(Visibility), buttonContent, CultureInfo.InvariantCulture);
+            //Assert
+            Assert.AreEqual(Visibility.Visible, result);
+        }
+        //case 3: When search text matches button content then button is visible.
+        [TestMethod()]
+        public void Convert_SearchTextMatchesButtonContent_ReturnVisible()
+        {
+            //Arrange
+            object searchText = "But";
+            var buttonContent = "Button";
+            //Act
+            var result = _converter.Convert(searchText, typeof(Visibility), buttonContent, CultureInfo.InvariantCulture);
+            //Assert
+            Assert.AreEqual(Visibility.Visible, result);
+        }
+        //case 4: When search text does not matches button content then button is collapsed.
+        [TestMethod()]
+        public void Convert_SearchTextDoesnotMatchesButtonContent_ReturnCollapsed()
+        {
+            //Arrange
+            object searchText = "Search";
+            var buttonContent = "Button";
+            //Act
+            var result = _converter.Convert(searchText, typeof(Visibility), buttonContent, CultureInfo.InvariantCulture);
+            //Assert
+            Assert.AreEqual(Visibility.Collapsed, result);
+        }
+        //case 5: When search text does not matches button content and is case insensitive then button is visible.
+        [TestMethod()]
+        public void Convert_CaseInsensitiveSearch_ReturnVisible()
+        {
+            //Arrange
+            object searchText = "button";
+            var buttonContent = "Button";
+            //Act
+            var result = _converter.Convert(searchText, typeof(Visibility), buttonContent, CultureInfo.InvariantCulture);
+            //Assert
+            Assert.AreEqual(Visibility.Visible, result);
+
+        }
+        //case 6: When search text does not matches button content and is case insensitive then button is visible.
+        [TestMethod()]
+        public void Convert_CaseInsensitiveButtonContent_ReturnVisible()
+        {
+            //Arrange
+            object searchText = "bUTton";
+            var buttonContent = "Button";
+            //Act
+            var result = _converter.Convert(searchText, typeof(Visibility), buttonContent, CultureInfo.InvariantCulture);
+            //Assert
+            Assert.AreEqual(Visibility.Visible, result);
+        }   
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+MainWindowTest.cs
+--------------------
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Task;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Globalization;
+using System.Windows;
+
+namespace Task.Tests
+{
+    [TestClass()]
+    public class MainWindowTests
+    {
+        public ButtonVisibilityConverter _converter;
+        [TestInitialize]
+        public void setup()
+        {
+            _converter = new ButtonVisibilityConverter();
+        }
+        // case1: search label gets collapsed because search textbox is not empty
+        [TestMethod()]
+        public void searchLabelCollapsed ()
+        {
+
+            //Arrange
+            object searchText = "bUTton";
+            var labelContent = "";
+            //Act
+            var result = _converter.Convert(searchText, typeof(Visibility), labelContent, CultureInfo.InvariantCulture);
+            //Assert
+            Assert.AreEqual(Visibility.Collapsed, result);
+        }
+        // case2: search label is visible because search textbox is empty
+        [TestMethod()]
+        public void searchLabelVisible() 
+        {
+
+            //Arrange
+            object searchText = "";
+            var labelContent = "Enter text to search";
+            //Act
+            var result = _converter.Convert(searchText, typeof(Visibility), labelContent, CultureInfo.InvariantCulture);
+            //Assert
+            Assert.AreEqual(Visibility.Visible, result);
+        }
+    }
+}
