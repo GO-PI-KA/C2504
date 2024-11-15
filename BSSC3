@@ -110,15 +110,13 @@ namespace Task
         {
             if (message == "SHOW_ALL")
             {
-                foreach (var button in btnDisease.Children.OfType<Button>())
-                {
-                    button.Visibility = Visibility.Visible;
-                }
-            }
-            else
-            {
+                
+                
+            
+            
+            
                 textSearchBox.Text = message;
-            }
+            
         });
         }
        
